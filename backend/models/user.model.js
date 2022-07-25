@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema(
   {
@@ -69,6 +70,46 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+//hash user password
+userSchema.pre("save", async (next) => {
+  const user = this;
+  if (user.isModified("password")) {
+    user.password = await bcrypt.hash(user.password, process.env.saltOrRounds);
+  }
+  next();
+});
+
+//formatin user to profile object
+userSchema.methods.toJSON = function () {
+  const user = this;
+  const userProfile = user.toObject();
+  delete userProfile.password;
+  delete userProfile.tokens;
+  delete userProfile.avatar;
+  return userProfile;
+};
+//Creating user token
+userSchema.methods.creatAuthToken = async function () {
+  const user = this;
+  const token = jwt.sign({ _id: user._id.toString() });
+  user.tokens = await user.tokens.concat({ token });
+  await user.save();
+  return token;
+};
+
+//login in user session
+userSchema.statics.findByCredentials = async (email, password) => {
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new Error("Unable to login ");
+  }
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    throw new Error("Unable to login ");
+  }
+  return user;
+};
 
 const User = mongoose.model("User", userSchema);
 
