@@ -7,22 +7,8 @@ const createUserAccount = async (req, res) => {
   try {
     const user = new UserModel(req.body);
     await user.save();
-    res.status(201).send({ user });
-  } catch (error) {
-    res.status(500).send(`Error: ${error}`);
-  }
-};
-
-//Login an user
-//path: /users/login
-//public
-const loginUser = async (req, res) => {
-  try {
-    const user = await UserModel.findByCredentials(
-      req.body.email,
-      req.body.password
-    );
-    res.status(200).send({ user });
+    const token = await user.creatAuthToken();
+    res.status(201).send({ user, token });
   } catch (error) {
     res.status(500).send(`Error: ${error}`);
   }
@@ -44,8 +30,40 @@ const getUserById = async (req, res) => {
   }
 };
 
+//Login an user
+//path: /users/login
+//public
+const loginUser = async (req, res) => {
+  try {
+    const user = await UserModel.findByCredentials(
+      req.body.email,
+      req.body.password
+    );
+    const token = await user.creatAuthToken();
+    res.status(200).send({ user, token });
+  } catch (error) {
+    res.status(500).send(`Error: ${error}`);
+  }
+};
+
+//log out user
+//path: /users/logout
+// private : to connected users
+const logOutUser = async (req, res) => {
+  try {
+    req.user.tokens = req.user.tokens.filter((token) => {
+      return token.token != req.token;
+    });
+    await req.user.save();
+    res.send();
+  } catch (error) {
+    res.status(500).send({ error: error.message, user: req.user });
+  }
+};
+
 module.exports = {
   createUserAccount,
   loginUser,
   getUserById,
+  logOutUser,
 };
