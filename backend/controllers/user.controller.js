@@ -30,3 +30,7 @@ const createUserAccount = async (req, res) => {
     });
   }
 };
+
+module.exports = {
+  createUserAccount,
+};
