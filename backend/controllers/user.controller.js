@@ -65,6 +65,20 @@ const logOutUser = async (req, res) => {
   }
 };
 
+//logout from all the sesions
+//path: /users/logoutAll
+// private : to connected users
+const logoutFromAllSessions = async (req, res) => {
+  try {
+    req.user.tokens = [];
+    await req.user.save();
+    res.send("logout from all the sessions successfully");
+  } catch (error) {
+    req.status(500);
+    throw new Error("Couldn't log out from all sessions");
+  }
+};
+
 //delete user from database
 //path: /users/me
 // private : to connected users
@@ -105,7 +119,8 @@ const updateUserProfile = async (req, res) => {
     await req.user.save();
     res.status(200).send(req.user);
   } catch (error) {
-    res.status(500).send(`Error: ${error}`);
+    res.status(500);
+    throw new Error("Cannot Update User Profile");
   }
 };
 module.exports = {
@@ -115,4 +130,5 @@ module.exports = {
   logOutUser,
   deleteUserAccount,
   updateUserProfile,
+  logoutFromAllSessions,
 };

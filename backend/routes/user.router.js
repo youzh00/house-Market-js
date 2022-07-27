@@ -8,6 +8,7 @@ const {
   logOutUser,
   deleteUserAccount,
   updateUserProfile,
+  logoutFromAllSessions,
 } = require("../controllers/user.controller");
 const isConnected = require("../middlewares/auth.middleware");
 //!--------------Coding--------------------//
@@ -17,6 +18,7 @@ router.route("/register").post(createUserAccount);
 router.route("/login").post(loginUser);
 
 router.route("/logout").post(isConnected, logOutUser);
+router.route("/logoutAll").post(isConnected, logoutFromAllSessions);
 
 router.route("/:id").get(getUserById);
 
