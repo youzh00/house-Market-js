@@ -1,4 +1,5 @@
 const UserModel = require("../models/user.model");
+const sharp = require("sharp");
 
 //sign up an user to database
 //path: /users/register
@@ -123,6 +124,24 @@ const updateUserProfile = async (req, res) => {
     throw new Error("Cannot Update User Profile");
   }
 };
+//add user profile picture
+//path: /users/me/avatar
+// private : to connected users
+const addProfilePicture = async (req, res) => {
+  console.log(req.file);
+  try {
+    const buffer = await sharp(req.file.buffer)
+      .resize(250, 250)
+      .png()
+      .toBuffer();
+    req.user.avatar = buffer;
+    await req.user.save();
+    res.send("added successfully");
+  } catch (error) {
+    res.send(500);
+    throw new Error("Cannot add picture to user profile");
+  }
+};
 
 module.exports = {
   createUserAccount,
@@ -132,4 +151,5 @@ module.exports = {
   deleteUserAccount,
   updateUserProfile,
   logoutFromAllSessions,
+  addProfilePicture,
 };

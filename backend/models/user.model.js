@@ -55,6 +55,9 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    avatar: {
+      type: Buffer,
+    },
     tokens: [
       {
         token: {
@@ -63,9 +66,6 @@ const userSchema = new mongoose.Schema(
         },
       },
     ],
-    avatar: {
-      type: Buffer,
-    },
   },
   {
     timestamps: true,
