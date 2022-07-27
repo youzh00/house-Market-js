@@ -78,10 +78,41 @@ const deleteUserAccount = async (req, res) => {
   }
 };
 
+//update user's data
+//path: /users/me
+// private : to connected users
+const updateUserProfile = async (req, res) => {
+  const updates = Object.keys(req.body);
+  const allowedUpdates = [
+    "userName",
+    "email",
+    "password",
+    "age",
+    "bio",
+    "phoneNumber",
+    "address",
+  ];
+  const isValidOper = updates.every((update) => {
+    return allowedUpdates.includes(update);
+  });
+
+  if (!isValidOper) {
+    res.status(400);
+    throw new Error("Invalid Updates");
+  }
+  try {
+    updates.forEach((update) => (req.user[update] = req.body[update]));
+    await req.user.save();
+    res.status(200).send(req.user);
+  } catch (error) {
+    res.status(500).send(`Error: ${error}`);
+  }
+};
 module.exports = {
   createUserAccount,
   loginUser,
   getUserById,
   logOutUser,
   deleteUserAccount,
+  updateUserProfile,
 };
