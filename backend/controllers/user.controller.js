@@ -10,7 +10,8 @@ const createUserAccount = async (req, res) => {
     const token = await user.creatAuthToken();
     res.status(201).send({ user, token });
   } catch (error) {
-    res.status(500).send(`Error: ${error}`);
+    res.status(400);
+    throw new Error("Invalid User Data");
   }
 };
 
@@ -26,7 +27,8 @@ const getUserById = async (req, res) => {
     }
     res.status(200).send(user);
   } catch (error) {
-    res.status(400).send(error);
+    res.status(404);
+    throw new Error("User not found");
   }
 };
 
@@ -42,7 +44,8 @@ const loginUser = async (req, res) => {
     const token = await user.creatAuthToken();
     res.status(200).send({ user, token });
   } catch (error) {
-    res.status(500).send(`Error: ${error}`);
+    res.status(401);
+    throw new Error("Invalid Email or Password");
   }
 };
 
@@ -57,14 +60,22 @@ const logOutUser = async (req, res) => {
     await req.user.save();
     res.send();
   } catch (error) {
-    res.status(500).send({ error: error.message, user: req.user });
+    res.status(500);
+    throw new Error("Unable to logout user");
   }
 };
 
+//delete user from database
+//path: /users/me
+// private : to connected users
 const deleteUserAccount = async (req, res) => {
   try {
     await req.user.remove();
-  } catch (error) {}
+    res.status(200).send(req.user);
+  } catch (error) {
+    res.status(404);
+    throw new Error("User not found");
+  }
 };
 
 module.exports = {
@@ -72,4 +83,5 @@ module.exports = {
   loginUser,
   getUserById,
   logOutUser,
+  deleteUserAccount,
 };

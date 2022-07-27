@@ -6,6 +6,7 @@ const {
   loginUser,
   getUserById,
   logOutUser,
+  deleteUserAccount,
 } = require("../controllers/user.controller");
 const isConnected = require("../middlewares/auth.middleware");
 //!--------------Coding--------------------//
@@ -17,5 +18,7 @@ router.route("/login").post(loginUser);
 router.route("/logout").post(isConnected, logOutUser);
 
 router.route("/:id").get(getUserById);
+
+router.route("/me").delete(isConnected, deleteUserAccount);
 
 module.exports = router;
