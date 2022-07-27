@@ -10,9 +10,6 @@ const {
 const isConnected = require("../middlewares/auth.middleware");
 //!--------------Coding--------------------//
 
-console.log(isConnected);
-console.log(logOutUser);
-
 router.route("/register").post(createUserAccount);
 
 router.route("/login").post(loginUser);
