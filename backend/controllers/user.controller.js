@@ -142,7 +142,22 @@ const addProfilePicture = async (req, res) => {
     throw new Error("Cannot add picture to user profile");
   }
 };
+//add user profile picture
+//path: /users/:id/avatar
+// private : to connected users
+const getUserProfilePicture = async (req, res) => {
+  const user = await UserModel.findById(req.params.id);
 
+  try {
+    if (!user || !user.avatar) {
+      throw new Error("user or image not found");
+    }
+    res.set("Content-Type", "image/png");
+    res.send(user.avatar);
+  } catch (error) {
+    res.status(404).send(error.message);
+  }
+};
 module.exports = {
   createUserAccount,
   loginUser,
@@ -152,4 +167,5 @@ module.exports = {
   updateUserProfile,
   logoutFromAllSessions,
   addProfilePicture,
+  getUserProfilePicture,
 };

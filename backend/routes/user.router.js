@@ -9,6 +9,7 @@ const {
   deleteUserAccount,
   updateUserProfile,
   logoutFromAllSessions,
+  getUserProfilePicture,
   addProfilePicture,
 } = require("../controllers/user.controller");
 const isConnected = require("../middlewares/auth.middleware");
@@ -40,4 +41,5 @@ router
     }
   );
 
+router.route("/:id/avatar").get(getUserProfilePicture);
 module.exports = router;
