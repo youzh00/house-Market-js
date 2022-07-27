@@ -123,6 +123,7 @@ const updateUserProfile = async (req, res) => {
     throw new Error("Cannot Update User Profile");
   }
 };
+
 module.exports = {
   createUserAccount,
   loginUser,
