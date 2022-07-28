@@ -11,6 +11,7 @@ const {
   logoutFromAllSessions,
   getUserProfilePicture,
   addProfilePicture,
+  deleteProfilePicture,
 } = require("../controllers/user.controller");
 const isConnected = require("../middlewares/auth.middleware");
 const uploadUserPic = require("../middlewares/uploadUserPic.middleware");
@@ -32,14 +33,8 @@ router
 
 router
   .route("/me/avatar")
-  .post(
-    isConnected,
-    uploadUserPic.single("avatar"),
-    addProfilePicture,
-    (error, req, res, next) => {
-      res.status(400).send({ error: error.message });
-    }
-  );
+  .post(isConnected, uploadUserPic.single("avatar"), addProfilePicture)
+  .delete(isConnected, deleteProfilePicture);
 
 router.route("/:id/avatar").get(getUserProfilePicture);
 module.exports = router;

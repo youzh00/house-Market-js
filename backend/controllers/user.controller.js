@@ -158,6 +158,19 @@ const getUserProfilePicture = async (req, res) => {
     res.status(404).send(error.message);
   }
 };
+//delete user profile picture  from database
+//path: /users/me/avatar
+// private : to connected users
+const deleteProfilePicture = async (req, res) => {
+  try {
+    req.user.avatar = undefined;
+    await req.user.save();
+    res.send("Deleted successfully");
+  } catch (error) {
+    res.status(500);
+    throw new Error("Cannot delete profile picture ");
+  }
+};
 module.exports = {
   createUserAccount,
   loginUser,
@@ -168,4 +181,5 @@ module.exports = {
   logoutFromAllSessions,
   addProfilePicture,
   getUserProfilePicture,
+  deleteProfilePicture,
 };
