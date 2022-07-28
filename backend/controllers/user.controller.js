@@ -16,6 +16,18 @@ const createUserAccount = async (req, res) => {
   }
 };
 
+//get connected user profile from database
+//path: /users/me
+// private : to user only
+const getUserProfile = async (req, res) => {
+  try {
+    res.status(200).send(req.user);
+  } catch (error) {
+    res.status(500);
+    throw new Error("Cannot get connected user profile ");
+  }
+};
+
 //get user by id from database
 //path: /users/:id
 // private : to admin
@@ -175,6 +187,7 @@ module.exports = {
   createUserAccount,
   loginUser,
   getUserById,
+  getUserProfile,
   logOutUser,
   deleteUserAccount,
   updateUserProfile,
