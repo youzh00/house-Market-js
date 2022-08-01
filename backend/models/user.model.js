@@ -82,6 +82,12 @@ userSchema.pre("save", async function (next) {
   }
   next();
 });
+// Creating virtual field for user properties
+userSchema.virtual("houses", {
+  ref: "House",
+  foreignField: "author",
+  localField: "_id",
+});
 
 //formatin user to profile object
 userSchema.methods.toJSON = function () {
