@@ -1,47 +1,45 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-
-
-const houseSchema=new mongoose.Schema({
+const houseSchema = new mongoose.Schema(
+  {
     description: {
-        type: String,
-        required: true,
-        trim: true,
-      },
-    price:{
-        type:number,required:true
+      type: String,
+      required: true,
+      trim: true,
     },
-    forRent:{
-        type:boolean
+    price: {
+      type: Number,
+      required: true,
     },
-    forSale:{
-        type:boolean,
+    forRent: {
+      type: Boolean,
     },
-    city:{
-        type:string,
-        required:true
+    forSale: {
+      type: Boolean,
     },
-    country:{
-        type:string,
-        required:true
+    city: {
+      type: String,
+      required: true,
     },
-    propertyType:{
-        type:string,  // Home, Appartment or Desktop 
-        required:true,
-        value:
+    country: {
+      type: String,
+      required: true,
+    },
+    propertyType: {
+      type: String,
+      required: true,
     },
     author: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: "User",
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
     },
-},
-{
-  timestamps: true,
-})
+  },
+  {
+    timestamps: true,
+  }
+);
 
+const House = mongoose.model("House", houseSchema);
 
-
-const HouseModel=mongoose.model("House", houseSchema);
-
-module.exports = HouseModel
+module.exports = House;

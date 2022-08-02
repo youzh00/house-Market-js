@@ -5,6 +5,7 @@ const UserModel = require("../models/user.model");
 //!--------------Coding--------------------//
 
 const isConnected = async (req, res, next) => {
+  console.log("In the auth middleware");
   try {
     const token = req.header("Authorization").replace("Bearer ", "");
     const decoded = jwt.verify(token, process.env.Secret_Key);

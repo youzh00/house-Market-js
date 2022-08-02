@@ -16,7 +16,7 @@ const {
 } = require("../controllers/user.controller");
 const isConnected = require("../middlewares/auth.middleware");
 const uploadUserPic = require("../middlewares/uploadUserPic.middleware");
-//!--------------Coding--------------------//
+//!----------------------Routes------------------------//
 
 router.route("/register").post(createUserAccount);
 

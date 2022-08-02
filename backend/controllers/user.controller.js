@@ -183,6 +183,8 @@ const deleteProfilePicture = async (req, res) => {
     throw new Error("Cannot delete profile picture ");
   }
 };
+
+//------------------------------------------- Exports-------------------------------------------//
 module.exports = {
   createUserAccount,
   loginUser,
