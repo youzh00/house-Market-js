@@ -73,7 +73,7 @@ const getHouseById = async (req, res) => {
     const house = await HouseModel.findOne({ _id, author: req.user._id });
     console.log(house);
     if (!house) {
-      return res.status(404).send({ message: "House not found" });
+      return res.status(404).send({ message: "Property not found" });
     }
     res.status(200).send(house);
   } catch (error) {
@@ -81,5 +81,46 @@ const getHouseById = async (req, res) => {
     throw new Error(`Error: ${error}`);
   }
 };
+
+//update houses data
+//private:to connected users
+//path:/houses/:id
+const updateHouse = async (req, res) => {
+  const _id = req.params.id;
+  const updates = Object.keys(req.body);
+  const allowedUpdates = [
+    "description",
+    "city",
+    "country",
+    "price",
+    "forRent",
+    "forSale",
+    "propertyType",
+  ];
+  const isValidOper = updates.every((update) =>
+    allowedUpdates.includes(update)
+  );
+  if (!isValidOper) {
+    return res.status(400).send({ message: "Inavalid update data" });
+  }
+  try {
+    const house = await HouseModel.findOne({ _id, author: req.user._id });
+    if (!house) {
+      return res.status(404).send({ message: "Property not found" });
+    }
+    updates.forEach((update) => (house[update] = req.body[update]));
+    await house.save();
+    res.status(200).send(house);
+  } catch (error) {
+    res.status(500).send();
+    throw new Error(`Error: ${error}`);
+  }
+};
+
 //-------------------------------------------- Exports-------------------------------------------//
-module.exports = { createHouse, getHouseById, getAllHouses };
+module.exports = {
+  createHouse,
+  getHouseById,
+  getAllHouses,
+  updateHouse,
+};
