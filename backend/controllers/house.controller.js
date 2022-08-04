@@ -62,5 +62,24 @@ const getAllHouses = async (req, res) => {
     throw new Error(`Error: ${error}`);
   }
 };
+
+//get houses from database by id
+//private:to connected users
+//path:/houses/:id
+const getHouseById = async (req, res) => {
+  const _id = req.params.id;
+  console.log(_id);
+  try {
+    const house = await HouseModel.findOne({ _id, author: req.user._id });
+    console.log(house);
+    if (!house) {
+      return res.status(404).send({ message: "House not found" });
+    }
+    res.status(200).send(house);
+  } catch (error) {
+    res.status(500);
+    throw new Error(`Error: ${error}`);
+  }
+};
 //-------------------------------------------- Exports-------------------------------------------//
-module.exports = { createHouse, getAllHouses };
+module.exports = { createHouse, getHouseById, getAllHouses };

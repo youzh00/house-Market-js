@@ -18,6 +18,7 @@ const isConnected = async (req, res, next) => {
 
     req.token = token;
     req.user = user;
+    console.log("In the auth middleware try catch block");
     next();
   } catch (error) {
     res.status(401).send({ error: "Please authenticate" });
