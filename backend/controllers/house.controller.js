@@ -82,7 +82,7 @@ const getHouseById = async (req, res) => {
   }
 };
 
-//update houses data
+//update house data
 //private:to connected users
 //path:/houses/:id
 const updateHouse = async (req, res) => {
@@ -116,11 +116,28 @@ const updateHouse = async (req, res) => {
     throw new Error(`Error: ${error}`);
   }
 };
-
+//delete house from database
+//private:to connected users
+//path:/houses/:id
+const deleteHouse = async (req, res) => {
+  const _id = req.params.id;
+  try {
+    const house = await HouseModel.findOne({ _id, author: req.user._id });
+    if (!house) {
+      return res.status(404).send({ message: "Property not found" });
+    }
+    await house.delete();
+    res.status(200).send({ message: "Property deleted" });
+  } catch (error) {
+    res.status(500).send();
+    throw new Error(`Error: ${error}`);
+  }
+};
 //-------------------------------------------- Exports-------------------------------------------//
 module.exports = {
   createHouse,
   getHouseById,
   getAllHouses,
   updateHouse,
+  deleteHouse,
 };
