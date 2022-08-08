@@ -20,15 +20,15 @@ const createHouse = async (req, res) => {
   }
 };
 
-//get tasks from database using queries
-//public: For everyone
+//get User Houses  from database using queries
+//Private: For connected user
 //path:
 //    /houses?forRent=true
 //    /houses?forSale=true
 //    /houses?city=marrakech
 //    /houses?limit=10&skip=0
 //    /houses?sortBy=createdAt:desc
-const getAllHouses = async (req, res) => {
+const getAllUserHouses = async (req, res) => {
   const match = {};
   const sort = {};
   if (req.query.forRent) {
@@ -168,12 +168,54 @@ const addHousePicturesById = async (req, res) => {
     throw new Error("Cannot add House Pictures");
   }
 };
+
+//get Houses  from database using queries
+//Public: For All User
+//path:
+//    /houses?forRent=true
+//    /houses?forSale=true
+//    /houses?city=marrakech
+//    /houses?limit=10&skip=0
+//    /houses?sortBy=createdAt:desc
+const getAllHouses = async (req, res) => {
+  const match = {};
+  const sort = {};
+  if (req.query.forRent) {
+    match.forRent = req.query.forRent === "true";
+  }
+  if (req.query.forSale) {
+    match.forSale = req.query.forSale === "true";
+  }
+  if (req.query.city) {
+    match.city = req.query.city;
+  }
+  const limit = req.query.limit ? req.query.limit : 0;
+  const skip = req.query.skip ? req.query.skip : 0;
+  if (req.query.sortBy) {
+    const parts = req.query.sortBy.split(":");
+    sort[parts[0]] = parts[1] === "desc" ? -1 : 1;
+  }
+  try {
+    const houses = await HouseModel.find({ match })
+      .limit(limit)
+      .skip(skip)
+      .sort(sort.createdAt);
+    if (!houses) {
+      return res.status(404).send({ message: "House not found" });
+    }
+    return res.status(200).send(houses);
+  } catch (error) {
+    res.status(500);
+    throw new Error(`Error: ${error}`);
+  }
+};
 //-------------------------------------------- Exports-------------------------------------------//
 module.exports = {
   createHouse,
   getHouseById,
-  getAllHouses,
+  getAllUserHouses,
   updateHouse,
   deleteHouse,
   addHousePicturesById,
+  getAllHouses,
 };

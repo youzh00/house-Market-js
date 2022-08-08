@@ -3,17 +3,20 @@ const router = new express.Router();
 const isConnected = require("../middlewares/auth.middleware");
 const {
   createHouse,
-  getAllHouses,
+  getAllUserHouses,
   getHouseById,
   updateHouse,
   deleteHouse,
   addHousePicturesById,
+  getAllHouses,
 } = require("../controllers/house.controller");
 const uploadUserPic = require("../middlewares/uploadUserPic.middleware");
 const uploadHousePics = require("../middlewares/uploadHousePics.middleware");
 
 //!--------------------------------Routes----------------------------------//
-router.route("/").post(isConnected, createHouse).get(isConnected, getAllHouses);
+router.route("/").post(isConnected, createHouse).get(getAllHouses);
+
+router.route("/me").get(isConnected, getAllUserHouses);
 
 router
   .route("/:id")
