@@ -29,6 +29,7 @@ const houseSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    pictures: [],
     author: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,

@@ -1,4 +1,5 @@
 const HouseModel = require("../models/house.model");
+const sharp = require("sharp");
 
 //create a new house
 //private:to connected users
@@ -8,6 +9,7 @@ const createHouse = async (req, res) => {
     const house = new HouseModel({
       ...req.body,
       author: req.user._id,
+      pictures: ["images/sample.jpg"],
     });
     await house.save();
     res.send(house);
@@ -133,6 +135,39 @@ const deleteHouse = async (req, res) => {
     throw new Error(`Error: ${error}`);
   }
 };
+//add house  pictures
+//path: /houses/pics
+// private : to connected users
+const addHousePicturesById = async (req, res) => {
+  const files = req.files;
+  const _id = req.params.id;
+  if (!files) {
+    return res.status(400).send({ message: "Please choose pictures" });
+  }
+  const fileCount = files.length;
+  if (fileCount > 5) {
+    return res.status(400).send({
+      message: "You have the right only to upload 5 images in maximum",
+    });
+  }
+  try {
+    const house = await HouseModel.findOne({ _id, author: req.user._id });
+    if (!house) {
+      return res.status(404).send({ message: "Property not found" });
+    }
+    let images = [];
+    house.pictures = [];
+    files.forEach(async (file) => {
+      images.push(`${file.destination}${file.filename}`);
+    });
+    house.pictures = images;
+    await house.save();
+    res.status(200).send(house);
+  } catch (error) {
+    res.send(500);
+    throw new Error("Cannot add House Pictures");
+  }
+};
 //-------------------------------------------- Exports-------------------------------------------//
 module.exports = {
   createHouse,
@@ -140,4 +175,5 @@ module.exports = {
   getAllHouses,
   updateHouse,
   deleteHouse,
+  addHousePicturesById,
 };
