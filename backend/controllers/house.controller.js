@@ -195,8 +195,10 @@ const getAllHouses = async (req, res) => {
     const parts = req.query.sortBy.split(":");
     sort[parts[0]] = parts[1] === "desc" ? -1 : 1;
   }
+  console.log("match :", match);
+
   try {
-    const houses = await HouseModel.find({ match })
+    const houses = await HouseModel.find(match)
       .limit(limit)
       .skip(skip)
       .sort(sort.createdAt);
