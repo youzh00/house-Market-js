@@ -1,0 +1,41 @@
+.navBar {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  height: 70px;
+}
+.navBarContainerList {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+.navBarContainerList li {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 49%;
+  transition-duration: 500ms;
+  transition-timing-function: ease-in-out;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.navBarContainerList li:hover {
+  background-color: #d4d4d4;
+}
+
+.icon {
+  cursor: pointer;
+}
+.pActive {
+  color: #1a22c9;
+  cursor: pointer;
+  margin: 2px;
+}
+.pDesactive {
+  color: #acaed9;
+  cursor: pointer;
+  margin: 2px;
+}
