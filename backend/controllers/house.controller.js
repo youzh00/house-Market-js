@@ -202,8 +202,9 @@ const getAllHouses = async (req, res) => {
       .limit(limit)
       .skip(skip)
       .sort(sort.createdAt);
-    if (!houses) {
-      return res.status(404).send({ message: "House not found" });
+    if (!houses || houses.length === 0) {
+      res.status(404).send({ message: "House not found" });
+      throw new Error("House not found");
     }
     return res.status(200).send(houses);
   } catch (error) {
