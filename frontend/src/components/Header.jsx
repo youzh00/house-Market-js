@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {
   createStyles,Container,Avatar,UnstyledButton,
-  Group,Text,Menu,Tabs,Burger,
+  Group,Text,Menu,Tabs,Burger, Modal,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
@@ -10,7 +10,7 @@ import {
 } from '@tabler/icons';
 import { MantineLogo } from '@mantine/ds';
 import angry from './angry.jpg'
-
+import AuthModal from './AuthModal';
 
 
 
@@ -94,10 +94,11 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export function Header( ) {
-  const user={
-    name:'youssef zahi',
-    image: angry
-  }
+  // const user={
+  //   name:'youssef zahi',
+  //   image: angry
+  // }
+  const user=undefined
   const tabs=["Home", "About", "Contact"]
   const { classes, theme, cx } = useStyles();
   const [opened, { toggle }] = useDisclosure(false);
@@ -124,8 +125,9 @@ export function Header( ) {
             size="sm"
             color={theme.white}
           />
-
-          {/* <Menu
+          {
+            user ?(
+              <Menu
             width={260}
             position="bottom-end"
             transition="pop-top-right"
@@ -173,7 +175,12 @@ export function Header( ) {
                 Delete account
               </Menu.Item>
             </Menu.Dropdown>
-          </Menu> */}
+          </Menu> 
+            ): <AuthModal/>
+          }
+          
+
+           
         </Group>
       </Container>
       <Container>
