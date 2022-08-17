@@ -9,4 +9,20 @@ const getUserById = async (id) => {
   if (data) {
     return data;
   }
+  return {};
 };
+
+const getMyProfile = async () => {
+  const { data } = await axios.get(API_URL + "me", { headers: authHeader() });
+  if (data) {
+    return data;
+  }
+  return {};
+};
+
+const userService = {
+  getUserById,
+  getMyProfile,
+};
+
+export default userService;

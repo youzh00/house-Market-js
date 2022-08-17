@@ -54,9 +54,9 @@ const logout = async () => {
   return data;
 };
 
-const authService = {
+const AuthService = {
   register,
   login,
   logout,
 };
-export default authService;
+export default AuthService;
