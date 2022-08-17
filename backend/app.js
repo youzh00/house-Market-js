@@ -15,14 +15,8 @@ app.use(cors());
 app.use(express.json());
 app.use("/users", userRouter);
 app.use("/houses", houseRouter);
-
-app.get("/houses", (req, res) => {
-  res.send("Hello World!");
-});
-
 app.use(notFound);
 app.use(errorHandler);
-
 const start = async () => {
   try {
     console.log(

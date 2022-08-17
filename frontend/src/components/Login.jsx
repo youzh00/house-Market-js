@@ -32,10 +32,10 @@ export default function Login({toggle,setTitle}) {
   return (
     <Paper radius="md" p="xl" >
       <Text size="lg" weight={500}>
-        Welcome to Mantine, login with
+        Welcome to Aji-Tesken, login with
       </Text>
 
-      <Divider label="Or continue with email" labelPosition="center" my="lg" />
+      <Divider labelPosition="center" my="lg" />
 
       <form onSubmit={form.onSubmit(() => {})}>
        
@@ -67,11 +67,9 @@ export default function Login({toggle,setTitle}) {
             onClick={() => toggle()}
             size="xs"
           >
-            {type === 'register'
-              ? 'Already have an account? Login'
-              : "Don't have an account? Register"}
+            "Don't have an account? Register"
           </Anchor>
-          <Button type="submit">{upperFirst(type)}</Button>
+          <Button type="submit" color={'violet'}>{upperFirst(type)}</Button>
         </Group>
       </form>
     </Paper>

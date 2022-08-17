@@ -117,14 +117,6 @@ export function Header( ) {
       <Container className={classes.mainSection}>
         <Group position="apart">
           <MantineLogo size={28} inverted />
-
-          <Burger
-            opened={opened}
-            onClick={toggle}
-            className={classes.burger}
-            size="sm"
-            color={theme.white}
-          />
           {
             user ?(
               <Menu

@@ -16,11 +16,11 @@ export default function AuthModal() {
         color='black'
         opened={opened}
         onClose={() => setOpened(false)}
-        title="Introduce yourself!"
         overlayColor={theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2]}
         overlayOpacity={0.55}
         overlayBlur={3}
         transition="fade"
+        size='lg'
         transitionDuration={600}
         transitionTimingFunction="ease"
       >
