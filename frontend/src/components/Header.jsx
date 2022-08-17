@@ -11,9 +11,10 @@ import {
 import { MantineLogo } from '@mantine/ds';
 import angry from './angry.jpg'
 import AuthModal from './AuthModal';
+import { useDispatch, useSelector } from "react-redux";
 
 
-
+//*---------------------------------------------- Style -----------------------------------------------------//
 const useStyles = createStyles((theme) => ({
   header: {
     paddingTop: theme.spacing.sm,
@@ -93,18 +94,22 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
+//*---------------------------------------------- Component -----------------------------------------------------//
+
 export function Header( ) {
-  // const user={
-  //   name:'youssef zahi',
-  //   image: angry
-  // }
-  const user=undefined
+  const user={
+    name:'youssef zahi',
+    image: angry
+  }
+  const { isLoggedIn,user:currentUser } = useSelector((state) => state.auth);
+  
+
   const tabs=["Home", "About", "Contact"]
   const { classes, theme, cx } = useStyles();
   const [opened, { toggle }] = useDisclosure(false);
   const [userMenuOpened, setUserMenuOpened] = useState(false);
 
-  console.log(theme)
+  console.log(currentUser.user)
   const items = tabs.map((tab) => (
     <Tabs.Tab value={tab} key={tab}>
       {tab}
@@ -118,7 +123,7 @@ export function Header( ) {
         <Group position="apart">
           <MantineLogo size={28} inverted />
           {
-            user ?(
+            isLoggedIn ?(
               <Menu
             width={260}
             position="bottom-end"
@@ -131,9 +136,9 @@ export function Header( ) {
                 className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
               >
                 <Group spacing={7}>
-                  <Avatar src={user.image} alt={user.name} radius="xl" size={20} />
+                  <Avatar src={user.image} alt={currentUser.user.userName} radius="xl" size={20} />
                   <Text weight={500} size="sm" sx={{ lineHeight: 1, color: theme.white }} mr={3}>
-                    {user.name}
+                    {currentUser.user.userName}
                   </Text>
                   <IconChevronDown size={12} stroke={1.5} />
                 </Group>
