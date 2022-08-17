@@ -12,8 +12,19 @@ import {
   Anchor,
   Stack,
 } from '@mantine/core';
+import React, { useState, useEffect  } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../features/user/authSlice";
+import { clearMessage } from "../features/user/messageSlice";
 
 export default function Login({toggle,setTitle}) {
+  const [loading, setLoading] = useState(false);
+  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { message } = useSelector((state) => state.message);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(clearMessage());
+  }, [dispatch]);
   const type='login'
   const form = useForm({
     initialValues: {
@@ -26,7 +37,12 @@ export default function Login({toggle,setTitle}) {
       password: (val) => (val.length <= 8 ? 'Password should include at least 8 characters' : null),
     },
   });
-
+  const handleFormSubmit =(e) => {
+    e.preventDefault();
+    console.log('Form submission')
+    const {email, password} =form.values;
+    dispatch(login({ email, password }))
+  }
   console.log(form.values.email)
   console.log(form.values.password)
   return (
@@ -37,7 +53,7 @@ export default function Login({toggle,setTitle}) {
 
       <Divider labelPosition="center" my="lg" />
 
-      <form onSubmit={form.onSubmit(() => {})}>
+      <form onSubmit={(e)=>handleFormSubmit(e)}>
        
          <Stack>
          <TextInput

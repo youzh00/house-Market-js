@@ -36,6 +36,9 @@ const login = async (email, password) => {
   if (data.token) {
     localStorage.setItem("user", JSON.stringify(data));
   }
+
+  console.log("this user login Data");
+  console.log(data);
   return data;
 };
 
