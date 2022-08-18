@@ -1,4 +1,4 @@
-import { useToggle, upperFirst } from '@mantine/hooks';
+import { useToggle, upperFirst, useId } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
 import {
   TextInput,
@@ -13,10 +13,30 @@ import {
   Stack,
   NumberInput,
   Textarea,
+  Input,
+  Alert,
 } from '@mantine/core';
+import InputMask from 'react-input-mask';
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { register } from "../features/user/authSlice";
+import { clearMessage } from "../features/user/messageSlice";
+import { IconAlertCircle } from '@tabler/icons';
+//*--------------------------------------------------------------------------------------------------------------//
+//*---------------------------------------------- Component -----------------------------------------------------//
+//*--------------------------------------------------------------------------------------------------------------//
 
 export default function Register({toggle,setTitle}) {
+  const id = useId();
   const type ='register';
+  const { message } = useSelector((state) => state.message);
+  const [successful, setSuccessful] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(clearMessage());
+  }, [dispatch]);
+  
   const form = useForm({
     initialValues: {
       email: '',
@@ -38,18 +58,23 @@ export default function Register({toggle,setTitle}) {
     e.preventDefault();
     const data={
       email:form.values.email,
-      name: form.values.name,
+      userName: form.values.name,
       password: form.values.password,
       address: form.values.address,
       age: form.values.age,
       bio: form.values.bio,
       phoneNumber: form.values.phoneNumber,
-      terms:true
     }
-    console.log(data);
+    setSuccessful(false);
+    dispatch(register(data)).unwrap()
+    .then(() => {
+      setSuccessful(true);
+    })
+    .catch(() => {
+      setSuccessful(false);
+    });
+    console.log("This is a registration data from  register screen :", data);
   }
-
-
   return (
     <Paper radius="md" p="xl" >
       <Text size="lg" weight={500}>
@@ -79,15 +104,7 @@ export default function Register({toggle,setTitle}) {
             error={form.errors.email && 'Invalid email'}
           />
 
-          <PasswordInput
-            required
-            label="Password"
-            placeholder="Your password"
-            radius="md"
-            value={form.values.password}
-            onChange={(event) => form.setFieldValue('password', event.currentTarget.value)}
-            error={form.errors.password && 'Password should include at least 6 characters'}
-          />
+          
           <NumberInput
             defaultValue={18}
             placeholder="Your age"
@@ -107,6 +124,20 @@ export default function Register({toggle,setTitle}) {
             onChange={(event) => form.setFieldValue('address', event.currentTarget.value)}
           />
 
+          <Input.Wrapper id={id} label="Your phone" required >
+              <Input component={InputMask} mask="+212 (99) 99-99-99-99" id={id} placeholder="Your phone number" 
+                          onChange={(event) => form.setFieldValue('phoneNumber', event.currentTarget.value)}/>
+          </Input.Wrapper>
+          
+          <PasswordInput
+            required
+            label="Password"
+            placeholder="Your password"
+            radius="md"
+            value={form.values.password}
+            onChange={(event) => form.setFieldValue('password', event.currentTarget.value)}
+            error={form.errors.password && 'Password should include at least 6 characters'}
+          />
           <Textarea
             required
             label="Bio"
@@ -115,13 +146,14 @@ export default function Register({toggle,setTitle}) {
             value={form.values.bio}
             onChange={(event) => form.setFieldValue('bio', event.currentTarget.value)}
           />
-
-          <Checkbox
-            label="I accept terms and conditions"
-            checked={form.values.terms}
-            onChange={(event) => form.setFieldValue('terms', event.currentTarget.checked)}
-          />
+          
         </Stack>
+        {message &&
+          <div style={{ marginTop: '10px' }}>
+            <Alert icon={<IconAlertCircle size={16} />} title={`${message}`} color="red"/>
+          </div>
+  
+       }
 
         <Group position="apart" mt="xl">
           <Anchor

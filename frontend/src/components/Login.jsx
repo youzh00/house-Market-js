@@ -11,21 +11,26 @@ import {
   Checkbox,
   Anchor,
   Stack,
+  Alert,
+  Container,
 } from '@mantine/core';
 import React, { useState, useEffect  } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../features/user/authSlice";
 import { clearMessage } from "../features/user/messageSlice";
+import { IconAlertCircle } from '@tabler/icons';
 
 export default function Login({toggle,setTitle}) {
+  const type='login'
   const [loading, setLoading] = useState(false);
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { message } = useSelector((state) => state.message);
   const dispatch = useDispatch();
+  
   useEffect(() => {
     dispatch(clearMessage());
   }, [dispatch]);
-  const type='login'
+  
   const form = useForm({
     initialValues: {
       email: '',
@@ -37,6 +42,7 @@ export default function Login({toggle,setTitle}) {
       password: (val) => (val.length <= 8 ? 'Password should include at least 8 characters' : null),
     },
   });
+  
   const handleFormSubmit =(e) => {
     e.preventDefault();
     console.log('Form submission')
@@ -45,6 +51,7 @@ export default function Login({toggle,setTitle}) {
   }
   console.log(form.values.email)
   console.log(form.values.password)
+  console.log("This is the message from backend",message)
   return (
     <Paper radius="md" p="xl" >
       <Text size="lg" weight={500}>
@@ -74,7 +81,12 @@ export default function Login({toggle,setTitle}) {
            error={form.errors.password && 'Password should include at least 6 characters'}
          />
        </Stack>
-       
+       {message &&
+          <div style={{ marginTop: '10px' }}>
+            <Alert icon={<IconAlertCircle size={16} />} title={`${message}`} color="red"/>
+          </div>
+  
+       }
         <Group position="apart" mt="xl">
           <Anchor
             component="button"

@@ -11,7 +11,6 @@ import { MantineLogo } from '@mantine/ds';
 import AuthModal from './AuthModal';
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/user/authSlice";
-import defaultPic from '../userPic/sample.png'
 //*---------------------------------------------- Style -----------------------------------------------------//
 const useStyles = createStyles((theme) => ({
   header: {
@@ -104,18 +103,11 @@ export function Header( ) {
   const dispatch = useDispatch();
   
   const { isLoggedIn,user:currentUser } = useSelector((state) => state.auth);
-  
-  const userPicExist=false;
-  if(currentUser && !currentUser.user.avatar.includes("sample")) {
-    userPicExist = true;
-  }
-  const userPic=!userPicExist && defaultPic 
+   
   const handleLogout=(e)=>{
     dispatch(logout())
   }
-  const pic='../userPic/avatar-1660828500084.jpg'
 
-  console.log(userPic)
   const items = tabs.map((tab) => (
     <Tabs.Tab value={tab} key={tab}>
       {tab}
@@ -142,7 +134,7 @@ export function Header( ) {
                 className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
               >
                 <Group spacing={7}>
-                  <Avatar  alt={userPic} radius="xl" size={20} color="indigo" />
+                  <Avatar  src={`http://localhost:3000${currentUser.user.avatar}`} alt='userProfilePicture' radius="xl" size={20} color="indigo" />
                   <Text weight={500} size="sm" sx={{ lineHeight: 1, color: theme.white }} mr={3}>
                     {currentUser.user.userName}
                   </Text>

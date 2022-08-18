@@ -7,19 +7,22 @@ const user = JSON.parse(localStorage.getItem("user"));
 export const register = createAsyncThunk(
   "auth/register",
   async (
-    { username, email, password, phoneNumber, address, age, bio },
+    { userName, email, password, phoneNumber, address, age, bio },
     thunkAPI
   ) => {
     try {
-      const data = await AuthService.register(
-        username,
+      console.log("this is from register slice data ");
+      const userInfo = {
+        userName,
         email,
         password,
         phoneNumber,
         address,
         age,
-        bio
-      );
+        bio,
+      };
+      console.log("UserInfo from register slice data :", userInfo);
+      const data = await AuthService.register(userInfo);
       thunkAPI.dispatch(setMessage("success"));
       return data;
     } catch (error) {
@@ -58,7 +61,7 @@ export const login = createAsyncThunk(
 
 //* ----------------------------------- Logout Action --------------------------------//
 export const logout = createAsyncThunk("auth/logout", async () => {
-  console.log("logged out action");
+  console.log("logged out");
   await AuthService.logout();
 });
 
@@ -75,10 +78,12 @@ const authSlice = createSlice({
   initialState,
   extraReducers: {
     [register.fulfilled]: (state, action) => {
+      state.user = action.payload.user;
       state.isLoggedIn = true;
     },
     [register.rejected]: (state, action) => {
       state.isLoggedIn = false;
+      state.user = null;
     },
     [login.fulfilled]: (state, action) => {
       state.isLoggedIn = true;

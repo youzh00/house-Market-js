@@ -4,17 +4,12 @@ import axios from "axios";
 const API_URL = "http://localhost:3000/users/";
 
 //* -----------------------------------Register an User------------------------------------//
-const register = async (
-  username,
-  email,
-  password,
-  phoneNumber,
-  address,
-  age,
-  bio
-) => {
-  const userInfo = {
-    username,
+const register = async (userInfo) => {
+  console.log("Register from AuthService");
+  const { userName, email, password, phoneNumber, address, age, bio } =
+    userInfo;
+  const USER = {
+    userName,
     email,
     password,
     phoneNumber,
@@ -22,10 +17,12 @@ const register = async (
     age,
     bio,
   };
-  const { data } = await axios.post(API_URL + "register", userInfo);
+  console.log("UserInfo from AuthService", USER);
+  const { data } = await axios.post(API_URL + "register", USER);
   if (data.token) {
     localStorage.setItem("user", JSON.stringify(data));
   }
+  console.log("This is a registration data fron auth service :", data);
   return data;
 };
 
