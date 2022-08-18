@@ -1,6 +1,7 @@
 //-----------------------------------------Requirements----------------------------------------------------//
 const express = require("express");
 const dotenv = require("dotenv");
+require("express-async-errors");
 const connect = require("./config/dbConfig");
 const cors = require("cors");
 const userRouter = require("./routes/user.router");
