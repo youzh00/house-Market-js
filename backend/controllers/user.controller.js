@@ -5,8 +5,10 @@ const sharp = require("sharp");
 //path: /users/register
 // public
 const createUserAccount = async (req, res) => {
+  const userBody = req.body;
+  userBody.avatar = "/userPic/sample.png";
   try {
-    const user = new UserModel(req.body);
+    const user = new UserModel(userBody);
     await user.save();
     const token = await user.creatAuthToken();
     res.status(201).send({ user, token });
@@ -63,12 +65,13 @@ const loginUser = async (req, res) => {
 //path: /users/logout
 // private : to connected users
 const logOutUser = async (req, res) => {
+  console.log("User logged out");
   try {
     req.user.tokens = req.user.tokens.filter((token) => {
       return token.token != req.token;
     });
     await req.user.save();
-    res.send();
+    res.status(200).send();
   } catch (error) {
     res.status(500);
     throw new Error("Unable to logout user");
@@ -137,13 +140,12 @@ const updateUserProfile = async (req, res) => {
 //path: /users/me/avatar
 // private : to connected users
 const addProfilePicture = async (req, res) => {
-  console.log(req.file);
+  const file = req.file;
+  if (!file) {
+    return res.status(400).send({ message: "Please choose picture" });
+  }
   try {
-    const buffer = await sharp(req.file.buffer)
-      .resize(250, 250)
-      .png()
-      .toBuffer();
-    req.user.avatar = buffer;
+    req.user.avatar = `/userPic/${file.filename}`;
     await req.user.save();
     res.send("added successfully");
   } catch (error) {

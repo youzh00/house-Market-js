@@ -46,14 +46,13 @@ const login = async (email, password) => {
 
 const logout = async () => {
   const user = JSON.parse(localStorage.getItem("user"));
-  localStorage.removeItem("user");
   const config = {
     headers: {
-      "Content-Type": "application/json",
       Authorization: `Bearer ${user.token}`,
     },
   };
-  const { data } = await axios.post(API_URL + "logout", config);
+  const { data } = await axios.post(API_URL + "logout", {}, config);
+  localStorage.removeItem("user");
   return data;
 };
 

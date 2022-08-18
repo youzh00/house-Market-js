@@ -58,6 +58,7 @@ export const login = createAsyncThunk(
 
 //* ----------------------------------- Logout Action --------------------------------//
 export const logout = createAsyncThunk("auth/logout", async () => {
+  console.log("logged out action");
   await AuthService.logout();
 });
 

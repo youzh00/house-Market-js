@@ -15,7 +15,8 @@ const {
   deleteProfilePicture,
 } = require("../controllers/user.controller");
 const isConnected = require("../middlewares/auth.middleware");
-const uploadUserPic = require("../middlewares/uploadUserPic.middleware");
+const uploadProfilePic = require("../middlewares/uploadUserPic.middleware");
+
 //!----------------------Routes------------------------//
 
 router.route("/register").post(createUserAccount);
@@ -34,7 +35,14 @@ router.route("/:id").get(getUserById);
 
 router
   .route("/me/avatar")
-  .post(isConnected, uploadUserPic.single("avatar"), addProfilePicture)
+  .post(
+    isConnected,
+    uploadProfilePic.single("avatar"),
+    addProfilePicture,
+    (error, req, res, next) => {
+      res.status(400).send({ error: error.message });
+    }
+  )
   .delete(isConnected, deleteProfilePicture);
 
 router.route("/:id/avatar").get(getUserProfilePicture);

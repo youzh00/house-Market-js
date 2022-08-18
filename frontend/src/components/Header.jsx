@@ -1,18 +1,16 @@
 import { useState } from 'react';
 import {
   createStyles,Container,Avatar,UnstyledButton,
-  Group,Text,Menu,Tabs,Burger, Modal,
+  Group,Text,Menu,Tabs,
 } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
 import {
   IconLogout,IconHeart,IconStar,IconMessage,IconSettings,
   IconPlayerPause,IconTrash,IconSwitchHorizontal,IconChevronDown,
 } from '@tabler/icons';
 import { MantineLogo } from '@mantine/ds';
-import angry from './angry.jpg'
 import AuthModal from './AuthModal';
 import { useDispatch, useSelector } from "react-redux";
-
+import { logout } from "../features/user/authSlice";
 
 //*---------------------------------------------- Style -----------------------------------------------------//
 const useStyles = createStyles((theme) => ({
@@ -95,21 +93,21 @@ const useStyles = createStyles((theme) => ({
 }));
 
 //*---------------------------------------------- Component -----------------------------------------------------//
-
 export function Header( ) {
-  const user={
-    name:'youssef zahi',
-    image: angry
-  }
+  const { classes, theme, cx } = useStyles();
+  const [userMenuOpened, setUserMenuOpened] = useState(false);
+  const tabs=["Home", "About", "Contact"]
+  const dispatch = useDispatch();
+  
   const { isLoggedIn,user:currentUser } = useSelector((state) => state.auth);
   
+  const handleLogout=(e)=>{
+    dispatch(logout())
+  }
 
-  const tabs=["Home", "About", "Contact"]
-  const { classes, theme, cx } = useStyles();
-  const [opened, { toggle }] = useDisclosure(false);
-  const [userMenuOpened, setUserMenuOpened] = useState(false);
+  console.log(currentUser.user.avatar)
 
-  console.log(currentUser.user)
+  console.log(isLoggedIn)
   const items = tabs.map((tab) => (
     <Tabs.Tab value={tab} key={tab}>
       {tab}
@@ -136,7 +134,7 @@ export function Header( ) {
                 className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
               >
                 <Group spacing={7}>
-                  <Avatar src={user.image} alt={currentUser.user.userName} radius="xl" size={20} />
+                  <Avatar src={`/${currentUser.user.avatar}`} alt={currentUser.user.userName} radius="xl" size={20} color="indigo" />
                   <Text weight={500} size="sm" sx={{ lineHeight: 1, color: theme.white }} mr={3}>
                     {currentUser.user.userName}
                   </Text>
@@ -160,7 +158,7 @@ export function Header( ) {
               <Menu.Item icon={<IconSwitchHorizontal size={14} stroke={1.5} />}>
                 Change account
               </Menu.Item>
-              <Menu.Item icon={<IconLogout size={14} stroke={1.5} />}>Logout</Menu.Item>
+              <Menu.Item icon={<IconLogout size={14} stroke={1.5} />} onClick={(e)=>handleLogout(e)}>Logout</Menu.Item>
 
               <Menu.Divider />
 

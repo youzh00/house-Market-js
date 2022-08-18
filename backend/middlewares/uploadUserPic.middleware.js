@@ -1,7 +1,24 @@
 const multer = require("multer");
+const path = require("path");
+const express = require("express");
 
-const uploadUserPic = multer({
-  limits: { fileSize: 2000000 },
+const storage = multer.diskStorage({
+  destination(req, file, cb) {
+    cb(null, "./frontend/src/userPic/");
+  },
+  filename(req, file, cb) {
+    cb(
+      null,
+      `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
+    );
+  },
+});
+
+const uploadProfilePic = multer({
+  storage,
+  limits: {
+    fileSize: 10000000,
+  },
   fileFilter(req, file, cb) {
     if (!file.originalname.match(/\.(jpg|png|jpeg)$/)) {
       return cb(new Error("Invalid file type"));
@@ -10,4 +27,18 @@ const uploadUserPic = multer({
   },
 });
 
-module.exports = uploadUserPic;
+module.exports = uploadProfilePic;
+
+// const multer = require("multer");
+
+// const uploadUserPic = multer({
+//   limits: { fileSize: 2000000 },
+//   fileFilter(req, file, cb) {
+//     if (!file.originalname.match(/\.(jpg|png|jpeg)$/)) {
+//       return cb(new Error("Invalid file type"));
+//     }
+//     cb(undefined, true);
+//   },
+// });
+
+// module.exports = uploadUserPic;

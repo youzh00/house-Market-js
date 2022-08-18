@@ -5,7 +5,6 @@ const UserModel = require("../models/user.model");
 //!--------------Coding--------------------//
 
 const isConnected = async (req, res, next) => {
-  console.log("In the auth middleware");
   try {
     const token = req.header("Authorization").replace("Bearer ", "");
     const decoded = jwt.verify(token, process.env.Secret_Key);
@@ -18,7 +17,6 @@ const isConnected = async (req, res, next) => {
 
     req.token = token;
     req.user = user;
-    console.log("In the auth middleware try catch block");
     next();
   } catch (error) {
     res.status(401).send({ error: "Please authenticate" });
