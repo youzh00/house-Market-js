@@ -4,7 +4,7 @@ const express = require("express");
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    cb(null, "./frontend/src/userPic/");
+    cb(null, "profilePictures/");
   },
   filename(req, file, cb) {
     cb(

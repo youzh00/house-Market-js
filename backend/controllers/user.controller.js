@@ -6,7 +6,7 @@ const sharp = require("sharp");
 // public
 const createUserAccount = async (req, res) => {
   const userBody = req.body;
-  userBody.avatar = "/userPic/sample.png";
+  userBody.avatar = "/profilePictures/sample.png";
   try {
     const user = new UserModel(userBody);
     await user.save();
@@ -145,7 +145,7 @@ const addProfilePicture = async (req, res) => {
     return res.status(400).send({ message: "Please choose picture" });
   }
   try {
-    req.user.avatar = `/userPic/${file.filename}`;
+    req.user.avatar = `/profilePictures/${file.filename}`;
     await req.user.save();
     res.send("added successfully");
   } catch (error) {

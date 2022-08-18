@@ -1,6 +1,8 @@
 //-----------------------------------------Requirements----------------------------------------------------//
 const express = require("express");
 const dotenv = require("dotenv");
+const path = require("path");
+
 require("express-async-errors");
 const connect = require("./config/dbConfig");
 const cors = require("cors");
@@ -16,6 +18,11 @@ app.use(cors());
 app.use(express.json());
 app.use("/users", userRouter);
 app.use("/houses", houseRouter);
+app.use("/images", express.static(path.join(__dirname, "..", "/images")));
+app.use(
+  "/profilePictures",
+  express.static(path.join(__dirname, "..", "/profilePictures"))
+);
 app.use(notFound);
 app.use(errorHandler);
 const start = async () => {
