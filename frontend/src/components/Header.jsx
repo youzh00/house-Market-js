@@ -1,16 +1,17 @@
 import { useState,lazy } from 'react';
 import {
   createStyles,Container,Avatar,UnstyledButton,
-  Group,Text,Menu,Tabs, Image,
+  Group,Text,Menu,Tabs, Image, Badge,
 } from '@mantine/core';
 import {
-  IconLogout,IconHeart,IconStar,IconMessage,IconSettings,
-  IconPlayerPause,IconTrash,IconSwitchHorizontal,IconChevronDown,
+  IconLogout,IconStar,IconSettings,
+  IconPlayerPause,IconTrash,IconChevronDown, IconUserCircle, IconHome, IconSmartHome, IconHome2,
 } from '@tabler/icons';
 import { MantineLogo } from '@mantine/ds';
 import AuthModal from './AuthModal';
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/user/authSlice";
+import logo from "../Assets/Logo2.jpg"
 //*---------------------------------------------- Style -----------------------------------------------------//
 const useStyles = createStyles((theme) => ({
   header: {
@@ -104,7 +105,7 @@ export function Header( ) {
   
   const { isLoggedIn,user:currentUser } = useSelector((state) => state.auth);
    
-  const handleLogout=(e)=>{
+  const handleLogout= (e)=>{
     dispatch(logout())
   }
 
@@ -114,12 +115,25 @@ export function Header( ) {
     </Tabs.Tab>
   ));
 
+  const avatar = (
+    <Avatar
+      alt="Avatar for badge"
+    >
+        <IconHome2 size={24} /> 
+    </Avatar>
+  );
   return (
     
     <div className={classes.header}>
       <Container className={classes.mainSection}>
         <Group position="apart">
-          <MantineLogo size={28} inverted />
+        <Badge sx={{ paddingLeft: 0 }} size="lg"  color="red" radius="sm" leftSection={avatar}>
+        Aji-Tesken
+      </Badge>
+        {/* <Avatar color="blue" >
+          <IconHome2 size={24} /> 
+        </Avatar>
+        <Badge variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>Aji-Tesken</Badge> */}
           {
             isLoggedIn ?(
               <Menu
@@ -143,29 +157,20 @@ export function Header( ) {
               </UnstyledButton>
             </Menu.Target>
             <Menu.Dropdown>
-              <Menu.Item icon={<IconHeart size={14} stroke={1.5} color={theme.colors.red[6]} />}>
-                Liked posts
-              </Menu.Item>
               <Menu.Item icon={<IconStar size={14} stroke={1.5} color={theme.colors.yellow[6]} />}>
                 Saved posts
               </Menu.Item>
-              <Menu.Item icon={<IconMessage size={14} stroke={1.5} color={theme.colors.blue[6]} />}>
-                Your comments
+              <Menu.Item icon={<IconUserCircle size={14} stroke={1.5} color={theme.colors.blue[6]} />}>
+                Profile
               </Menu.Item>
 
               <Menu.Label>Settings</Menu.Label>
               <Menu.Item icon={<IconSettings size={14} stroke={1.5} />}>Account settings</Menu.Item>
-              <Menu.Item icon={<IconSwitchHorizontal size={14} stroke={1.5} />}>
-                Change account
-              </Menu.Item>
               <Menu.Item icon={<IconLogout size={14} stroke={1.5} />} onClick={(e)=>handleLogout(e)}>Logout</Menu.Item>
 
               <Menu.Divider />
 
               <Menu.Label>Danger zone</Menu.Label>
-              <Menu.Item icon={<IconPlayerPause size={14} stroke={1.5} />}>
-                Pause subscription
-              </Menu.Item>
               <Menu.Item color="red" icon={<IconTrash size={14} stroke={1.5} />}>
                 Delete account
               </Menu.Item>
