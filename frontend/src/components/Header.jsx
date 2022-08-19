@@ -12,6 +12,7 @@ import AuthModal from './AuthModal';
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/user/authSlice";
 import logo from "../Assets/Logo2.jpg"
+import { useNavigate } from 'react-router';
 //*---------------------------------------------- Style -----------------------------------------------------//
 const useStyles = createStyles((theme) => ({
   header: {
@@ -102,11 +103,16 @@ export function Header( ) {
   const [userMenuOpened, setUserMenuOpened] = useState(false);
   const tabs=["Home", "About", "Contact"]
   const dispatch = useDispatch();
+  const navigate=useNavigate();
   
   const { isLoggedIn,user:currentUser } = useSelector((state) => state.auth);
    
   const handleLogout= (e)=>{
     dispatch(logout())
+  }
+
+  const handleProfileClick=()=>{
+    navigate('/user/profile')
   }
 
   const items = tabs.map((tab) => (
@@ -127,15 +133,8 @@ export function Header( ) {
     <div className={classes.header}>
       <Container className={classes.mainSection}>
         <Group position="apart">
-        <Badge sx={{ paddingLeft: 0 }} size="lg"  color="red" radius="sm" leftSection={avatar}>
-        Aji-Tesken
-      </Badge>
-        {/* <Avatar color="blue" >
-          <IconHome2 size={24} /> 
-        </Avatar>
-        <Badge variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>Aji-Tesken</Badge> */}
-          {
-            isLoggedIn ?(
+        <Badge sx={{ paddingLeft: 0 }} size="lg"  color="red" radius="sm" leftSection={avatar}>Aji-Tesken</Badge>
+        {isLoggedIn ?(
               <Menu
             width={260}
             position="bottom-end"
@@ -160,7 +159,7 @@ export function Header( ) {
               <Menu.Item icon={<IconStar size={14} stroke={1.5} color={theme.colors.yellow[6]} />}>
                 Saved posts
               </Menu.Item>
-              <Menu.Item icon={<IconUserCircle size={14} stroke={1.5} color={theme.colors.blue[6]} />}>
+              <Menu.Item icon={<IconUserCircle size={14} stroke={1.5} color={theme.colors.blue[6]} />} onClick={()=>handleProfileClick()}>
                 Profile
               </Menu.Item>
 
