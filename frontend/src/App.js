@@ -14,7 +14,7 @@ function App() {
         <Routes>
           <Route path="/user/profile" element={<ProfileScreen />} />
         </Routes>
-        <NavBar />
+        {/* <NavBar /> */}
       </Router>
     </>
   );

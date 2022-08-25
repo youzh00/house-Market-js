@@ -21,7 +21,7 @@ const useStyles = createStyles((theme) => ({
     borderBottom: `1px solid ${
       theme.fn.variant({ variant: 'filled', color: 'red' }).background
     }`,
-    marginBottom: 120,
+    marginBottom: 20,
  },
 
   mainSection: {
@@ -62,6 +62,7 @@ const useStyles = createStyles((theme) => ({
   tabs: {
     [theme.fn.smallerThan('sm')]: {
       // display: 'none',
+      marginLeft:"10px"
     },
   },
 
@@ -101,7 +102,7 @@ const useStyles = createStyles((theme) => ({
 export function Header( ) {
   const { classes, theme, cx } = useStyles();
   const [userMenuOpened, setUserMenuOpened] = useState(false);
-  const tabs=["Home", "About", "Contact"]
+  const tabs=["Home", "For Rent","For Sale","About"]
   const dispatch = useDispatch();
   const navigate=useNavigate();
   

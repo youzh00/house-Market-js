@@ -13,6 +13,7 @@ export default function AuthModal() {
   return (
     <>
       <Modal
+        centered 
         color='black'
         opened={opened}
         onClose={() => setOpened(false)}
