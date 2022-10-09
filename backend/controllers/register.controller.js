@@ -1,6 +1,10 @@
 const UserModel = require('../models/user.model');
 const bcrypt = require('bcrypt');
 
+
+//Register an user to database
+//path: /auth/register
+// public
 const RegisterUser = async (req, res) => {
     const { user, pwd } = req.body;
     const userBody = req.body;
@@ -25,5 +29,9 @@ const RegisterUser = async (req, res) => {
         res.status(500).json({ 'message': err.message });
     }
 }
+
+
+
+
 
 module.exports = { RegisterUser };
