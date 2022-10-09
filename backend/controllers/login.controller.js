@@ -13,12 +13,12 @@ const LoginUser = async (req, res) => {
         // create JWTs
 
         const accessToken = jwt.sign(
-            {"username": user.userName},
+            { _id: user._id.toString() },
             process.env.ACCESS_TOKEN_SECRET,
             { expiresIn: '40s' }
         );
         const refreshToken = jwt.sign(
-            { "username": user.userName },
+            { _id: user._id.toString() },
             process.env.REFRESH_TOKEN_SECRET,
             { expiresIn: '1d' }
         );
