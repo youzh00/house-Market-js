@@ -145,7 +145,7 @@ export function Header( ) {
           >
             <Menu.Target>
               <UnstyledButton
-                className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
+                className={cx(classes.user, { [classes.userActive]: userMenuOpened })} 
               >
                 <Group spacing={7}>
                   <Avatar  src={`http://localhost:3000${currentUser.user.avatar}`} alt='userProfilePicture' radius="xl" size={20} color="indigo" />

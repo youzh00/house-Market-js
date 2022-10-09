@@ -8,6 +8,8 @@ const connect = require("./config/dbConfig");
 const cors = require("cors");
 const userRouter = require("./routes/user.router");
 const houseRouter = require("./routes/house.router");
+const authRouter = require("./routes/auth.router");
+
 const { notFound, errorHandler } = require("./middlewares/error.middleware");
 
 dotenv.config();
@@ -18,6 +20,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/users", userRouter);
 app.use("/houses", houseRouter);
+app.use("/auth", authRouter);
 app.use("/images", express.static(path.join(__dirname, "..", "/images")));
 app.use(
   "/profilePictures",

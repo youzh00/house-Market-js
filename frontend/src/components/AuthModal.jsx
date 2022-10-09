@@ -38,7 +38,7 @@ export default function AuthModal() {
       primaryColor: 'brand',
       }}>
           <Group position="center" color='#BA0225'>
-             <Button onClick={() => setOpened(true)} color={theme.colors.red[3]}>Get Started</Button>
+             <Button onClick={() => setOpened(true)}  style={{backgroundColor:'#BA0225'}} >Get Started</Button>
           </Group>
      </MantineProvider>
       
