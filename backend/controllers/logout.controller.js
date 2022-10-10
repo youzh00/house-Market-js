@@ -2,11 +2,11 @@ const UserModel = require('../models/user.model');
 
 const LogoutUser = async (req, res) => {
     // On client, also delete the accessToken
-
     const cookies = req.cookies;
-    if (!cookies?.jwt) return res.status(204).json({'message':'Cookie token not found'}); //No content
+    if (!cookies?.jwt) return res.status(200).json({'message':'Cookie  not found'}); //No content
     const refreshToken = cookies.jwt;
-
+    
+    console.log('Logging out.......................................')
     // Is refreshToken in db?
     const user = await UserModel.findOne({ refreshToken }).exec();
     if (!user) {
@@ -20,7 +20,7 @@ const LogoutUser = async (req, res) => {
     console.log(result);
 
     res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
-    res.sendStatus(204);
+    res.status(204).json({'message': 'Logout Successfully'});
 }
 
 module.exports = { LogoutUser }

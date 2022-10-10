@@ -1,6 +1,6 @@
 const express = require("express");
 const router = new express.Router();
-const isConnected = require("../middlewares/auth.middleware");
+const {isConnected2:isConnected} = require("../middlewares/auth2.middleware");
 const {
   createHouse,
   getAllUserHouses,

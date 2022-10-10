@@ -96,17 +96,18 @@ userSchema.methods.toJSON = function () {
   const user = this;
   const userProfile = user.toObject();
   delete userProfile.password;
-  delete userProfile.tokens;
+  // delete userProfile.tokens;
+  delete userProfile.refreshToken;
   return userProfile;
 };
 //Creating user token
-userSchema.methods.creatAuthToken = async function () {
-  const user = this;
-  const token = jwt.sign({ _id: user._id.toString() }, process.env.Secret_Key);
-  user.tokens = await user.tokens.concat({ token });
-  await user.save();
-  return token;
-};
+// userSchema.methods.creatAuthToken = async function () {
+//   const user = this;
+//   const token = jwt.sign({ _id: user._id.toString() }, process.env.Secret_Key);
+//   user.tokens = await user.tokens.concat({ token });
+//   await user.save();
+//   return token;
+// };
 
 //login in user session
 userSchema.statics.findByCredentials = async (email, password) => {

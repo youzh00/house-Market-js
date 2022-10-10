@@ -2,24 +2,24 @@
 const express = require("express");
 const router = new express.Router();
 const {
-  createUserAccount,
-  loginUser,
+  // createUserAccount,
+  // loginUser,
   getUserById,
-  logOutUser,
+  // logOutUser,
   deleteUserAccount,
   updateUserProfile,
-  logoutFromAllSessions,
+  // logoutFromAllSessions,
   getUserProfilePicture,
   addProfilePicture,
   getUserProfile,
   deleteProfilePicture,
 } = require("../controllers/user.controller");
-const isConnected = require("../middlewares/auth.middleware");
+const {isConnected2:isConnected} = require("../middlewares/auth2.middleware");
 const uploadProfilePic = require("../middlewares/uploadUserPic.middleware");
 
 //!----------------------Routes------------------------//
 
-router.route("/register").post(createUserAccount);
+// router.route("/register").post(createUserAccount);
 
 router
   .route("/me")
@@ -27,9 +27,9 @@ router
   .delete(isConnected, deleteUserAccount)
   .put(isConnected, updateUserProfile);
 
-router.route("/login").post(loginUser);
-router.route("/logout").post(isConnected, logOutUser);
-router.route("/logoutAll").post(isConnected, logoutFromAllSessions);
+// router.route("/login").post(loginUser);
+// router.route("/logout").post(isConnected, logOutUser);
+// router.route("/logoutAll").post(isConnected, logoutFromAllSessions);
 
 router.route("/:id").get(getUserById);
 

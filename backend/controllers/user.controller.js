@@ -4,19 +4,19 @@ const sharp = require("sharp");
 //sign up an user to database
 //path: /users/register
 // public
-const createUserAccount = async (req, res) => {
-  const userBody = req.body;
-  userBody.avatar = "/profilePictures/sample.png";
-  try {
-    const user = new UserModel(userBody);
-    await user.save();
-    const token = await user.creatAuthToken();
-    res.status(201).send({ user, token });
-  } catch (error) {
-    res.status(400);
-    throw new Error("Invalid User Data");
-  }
-};
+// const createUserAccount = async (req, res) => {
+//   const userBody = req.body;
+//   userBody.avatar = "/profilePictures/sample.png";
+//   try {
+//     const user = new UserModel(userBody);
+//     await user.save();
+//     const token = await user.creatAuthToken();
+//     res.status(201).send({ user, token });
+//   } catch (error) {
+//     res.status(400);
+//     throw new Error("Invalid User Data");
+//   }
+// };
 
 //get connected user profile from database
 //path: /users/me
@@ -47,50 +47,50 @@ const getUserById = async (req, res) => {
 //Login an user
 //path: /users/login
 //public
-const loginUser = async (req, res) => {
-  try {
-    const user = await UserModel.findByCredentials(
-      req.body.email,
-      req.body.password
-    );
-    const token = await user.creatAuthToken();
-    res.status(200).send({ user, token });
-  } catch (error) {
-    res.status(401);
-    throw new Error("Invalid Email or Password");
-  }
-};
+// const loginUser = async (req, res) => {
+//   try {
+//     const user = await UserModel.findByCredentials(
+//       req.body.email,
+//       req.body.password
+//     );
+//     const token = await user.creatAuthToken();
+//     res.status(200).send({ user, token });
+//   } catch (error) {
+//     res.status(401);
+//     throw new Error("Invalid Email or Password");
+//   }
+// };
 
 //log out user
 //path: /users/logout
 // private : to connected users
-const logOutUser = async (req, res) => {
-  console.log("User logged out");
-  try {
-    req.user.tokens = req.user.tokens.filter((token) => {
-      return token.token != req.token;
-    });
-    await req.user.save();
-    res.status(200).send();
-  } catch (error) {
-    res.status(500);
-    throw new Error("Unable to logout user");
-  }
-};
+// const logOutUser = async (req, res) => {
+//   console.log("User logged out");
+//   try {
+//     req.user.tokens = req.user.tokens.filter((token) => {
+//       return token.token != req.token;
+//     });
+//     await req.user.save();
+//     res.status(200).send();
+//   } catch (error) {
+//     res.status(500);
+//     throw new Error("Unable to logout user");
+//   }
+// };
 
 //logout from all the sesions
 //path: /users/logoutAll
 // private : to connected users
-const logoutFromAllSessions = async (req, res) => {
-  try {
-    req.user.tokens = [];
-    await req.user.save();
-    res.send("logout from all the sessions successfully");
-  } catch (error) {
-    req.status(500);
-    throw new Error("Couldn't log out from all sessions");
-  }
-};
+// const logoutFromAllSessions = async (req, res) => {
+//   try {
+//     req.user.tokens = [];
+//     await req.user.save();
+//     res.send("logout from all the sessions successfully");
+//   } catch (error) {
+//     req.status(500);
+//     throw new Error("Couldn't log out from all sessions");
+//   }
+// };
 
 //delete user from database
 //path: /users/me
@@ -185,14 +185,14 @@ const deleteProfilePicture = async (req, res) => {
 
 //------------------------------------------- Exports-------------------------------------------//
 module.exports = {
-  createUserAccount,
-  loginUser,
+  // createUserAccount,
+  // loginUser,
   getUserById,
   getUserProfile,
-  logOutUser,
+  // logOutUser,
   deleteUserAccount,
   updateUserProfile,
-  logoutFromAllSessions,
+  // logoutFromAllSessions,
   addProfilePicture,
   getUserProfilePicture,
   deleteProfilePicture,

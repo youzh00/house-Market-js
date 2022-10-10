@@ -21,4 +21,4 @@ const isConnected2 = async (req, res, next) => {
   }
 };
 
-module.exports = isConnected2;
+module.exports = {isConnected2};
