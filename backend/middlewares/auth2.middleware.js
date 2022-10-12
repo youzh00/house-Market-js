@@ -12,7 +12,8 @@ const isConnected2 = async (req, res, next) => {
 
     const user = await UserModel.findOne({ _id: decoded._id,});
 
-    if (!user) throw new Error("Unable to find user");
+    // if (!user) throw new Error("Unable to find user");
+    if (!user) return res.sendStatus(403); ;
 
     req.user = user;
     next();
