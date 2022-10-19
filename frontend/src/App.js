@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import { Header } from "./components/Header";
 import ProfileScreen from "./Screens/Profile.screen";
-import {AuthenticationImage} from './components/Login2'
+import {AuthenticationImage} from './features/auth/Login2'
 
 function App() {
   // const { data } = await axios.get("http://localhost:3000/houses");
