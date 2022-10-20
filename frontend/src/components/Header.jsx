@@ -1,7 +1,7 @@
 import { useState,lazy } from 'react';
 import {
   createStyles,Container,Avatar,UnstyledButton,
-  Group,Text,Menu,Tabs, Image, Badge,
+  Group,Text,Menu,Tabs, Image, Badge, MantineProvider, Button,
 } from '@mantine/core';
 import {
   IconLogout,IconStar,IconSettings,
@@ -10,9 +10,10 @@ import {
 import { MantineLogo } from '@mantine/ds';
 import AuthModal from './AuthModal';
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../features/user/authSlice";
+import { logOut } from "../features/auth/authSlice";
 import logo from "../Assets/Logo2.jpg"
 import { useNavigate } from 'react-router';
+import {selectCurrentUser} from '../features/auth/authSlice'
 //*---------------------------------------------- Style -----------------------------------------------------//
 const useStyles = createStyles((theme) => ({
   header: {
@@ -21,7 +22,6 @@ const useStyles = createStyles((theme) => ({
     borderBottom: `1px solid ${
       theme.fn.variant({ variant: 'filled', color: 'red' }).background
     }`,
-    marginBottom: 20,
  },
 
   mainSection: {
@@ -103,18 +103,18 @@ export function Header( ) {
   const { classes, theme, cx } = useStyles();
   const [userMenuOpened, setUserMenuOpened] = useState(false);
   const tabs=["Home", "For Rent","For Sale","About"]
+  
   const dispatch = useDispatch();
   const navigate=useNavigate();
   
-  const { isLoggedIn,user:currentUser } = useSelector((state) => state.auth);
-   
-  const handleLogout= (e)=>{
-    dispatch(logout())
-  }
+  const currentUser =useSelector(selectCurrentUser)
+  console.log(currentUser)
+  
+  const handleLogout= (e)=>dispatch(logOut())
 
-  const handleProfileClick=()=>{
-    navigate('/user/profile')
-  }
+  const handleProfileClick=()=>navigate('/user/profile')
+
+  const handleGetStarted=()=>navigate('/auth/login')
 
   const items = tabs.map((tab) => (
     <Tabs.Tab value={tab} key={tab}>
@@ -135,7 +135,7 @@ export function Header( ) {
       <Container className={classes.mainSection}>
         <Group position="apart">
         <Badge sx={{ paddingLeft: 0 }} size="lg"  color="red" radius="sm" leftSection={avatar}>Aji-Tesken</Badge>
-        {isLoggedIn ?(
+        {currentUser ?(
               <Menu
             width={260}
             position="bottom-end"
@@ -148,9 +148,9 @@ export function Header( ) {
                 className={cx(classes.user, { [classes.userActive]: userMenuOpened })} 
               >
                 <Group spacing={7}>
-                  <Avatar  src={`http://localhost:3000${currentUser.user.avatar}`} alt='userProfilePicture' radius="xl" size={20} color="indigo" />
+                  <Avatar  src={`http://localhost:3000${currentUser.avatar}`} alt='userProfilePicture' radius="xl" size={20} color="indigo" />
                   <Text weight={500} size="sm" sx={{ lineHeight: 1, color: theme.white }} mr={3}>
-                    {currentUser.user.userName}
+                    {currentUser.userName}
                   </Text>
                   <IconChevronDown size={12} stroke={1.5} />
                 </Group>
@@ -176,7 +176,19 @@ export function Header( ) {
               </Menu.Item>
             </Menu.Dropdown>
           </Menu> 
-            ): <AuthModal/>
+            ): 
+            (
+              <MantineProvider theme={{
+                colors: {
+                  brand: ['#BA0225'],
+                },
+                primaryColor: 'brand',
+                }}>
+                    <Group position="center" color='#BA0225'>
+                       <Button onClick={handleGetStarted}  style={{backgroundColor:'#BA0225'}} >Get Started</Button>
+                    </Group>
+               </MantineProvider>
+            )
           }
           
 

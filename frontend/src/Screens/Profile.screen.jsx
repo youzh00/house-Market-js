@@ -6,6 +6,7 @@ import { Avatar, Text, Button, Paper } from '@mantine/core';
 import { IconAt } from '@tabler/icons';
 import {MdOutlineAlternateEmail,MdPhone} from 'react-icons/md'
 import UserData from '../components/UserData';
+import { selectCurrentUser } from '../features/auth/authSlice';
 
 
 const useStyles = createStyles((theme)=>({
@@ -21,7 +22,7 @@ const useStyles = createStyles((theme)=>({
 const ProfileScreen = () => {
     const {classes}=useStyles()
     const navigate = useNavigate()
-    const { user: currentUser } = useSelector((state) => state.auth);
+    const currentUser =useSelector(selectCurrentUser)
     if(!currentUser){
         navigate("/")
     }

@@ -16,14 +16,14 @@ const UserData = ({currentUser}) => {
           })}
            mt={20}
           >     
-            <Avatar src={`http://localhost:3000${currentUser.user.avatar}`} size='xl' radius={10} mx="auto" />
+            <Avatar src={`http://localhost:3000${currentUser.avatar}`} size='xl' radius={10} mx="auto" />
             <Text align="center" size="lg" weight={500} mt="md">
-                  {currentUser.user.userName.toUpperCase()}  
+                  {currentUser.userName.toUpperCase()}  
             </Text>  
             <Center Inline style={{display:'block'}}>
               <Center Inline my={20}>
                     <Text align="center">
-                        {currentUser.user.bio}
+                        {currentUser.bio}
                     </Text>
               </Center>
               <Divider m={10}  
@@ -34,11 +34,11 @@ const UserData = ({currentUser}) => {
                     </Center>} labelPosition="center" />
               <Center Inline mt={15} mb={5}>
                 <MdOutlineAlternateEmail size={20}/>
-                <Text align="center" color="black" size="md" ml={5}>{currentUser.user.email} </Text>
+                <Text align="center" color="black" size="md" ml={5}>{currentUser.email} </Text>
               </Center>
               <Center Inline mb={10}>
                 <MdPhone size={20}/>
-                <Text align="center" color="black" size="md" ml={5}>{currentUser.user.phoneNumber} </Text>
+                <Text align="center" color="black" size="md" ml={5}>{currentUser.phoneNumber} </Text>
               </Center>
               
             </Center>

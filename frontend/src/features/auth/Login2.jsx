@@ -8,6 +8,7 @@ import {
     Title,
     Text,
     Anchor,
+    Alert,
   } from '@mantine/core';
   
 import { useRef, useState, useEffect } from 'react'
@@ -16,6 +17,7 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setCredentials } from './authSlice'
 import { useLoginMutation } from './authApiSlice'
+import { IconAlertCircle } from '@tabler/icons';
 
   const useStyles = createStyles((theme) => ({
     wrapper: {
@@ -54,8 +56,8 @@ import { useLoginMutation } from './authApiSlice'
 //*---------------------------------------------- Component Logic --------------------------------------------------*//
   export function AuthenticationImage() {
     const { classes } = useStyles();
-    const userRef = useRef(null)
-    const errRef = useRef(null)
+    const userRef = useRef()
+    const errRef = useRef()
     const [email, setEmail] = useState('')
     const [pwd, setPwd] = useState('')
     const [errMsg, setErrMsg] = useState('')
@@ -63,9 +65,9 @@ import { useLoginMutation } from './authApiSlice'
     const dispatch = useDispatch()
     const [login,{isLoading}] = useLoginMutation()
 
-    // useEffect(()=>{
-    //   userRef.current.focus()
-    // },[])
+    useEffect(()=>{
+      userRef.current.focus()
+    },[])
 
     useEffect(()=>{
       setErrMsg('')
@@ -80,21 +82,21 @@ import { useLoginMutation } from './authApiSlice'
         setEmail('')
         setPwd('')
 
-        // navigate('/welcome')
+        navigate('/')
     } catch (err) {
+      console.log(err.status)
         if (!err?.status) {
             // isLoading: true until timeout occurs
             setErrMsg('No Server Response');
         } else if (err.status === 400) {
             setErrMsg('Missing Username or Password');
         } else if (err.status === 401) {
-            setErrMsg('Unauthorized');
+            setErrMsg('Unauthorized: Invalid Username or Password');
         } else {
             setErrMsg('Login Failed');
         }
-        console.log(err.status)
         console.log(errMsg);
-        // errRef.current.focus();
+        errRef.current.focus();
     }
     }
 
@@ -117,9 +119,13 @@ import { useLoginMutation } from './authApiSlice'
           </Title>
           <form onSubmit={handleSubmit}>
 
-            <TextInput label="Email address" placeholder="hello@gmail.com" size="md" onChange={handleEmailInput}/>
-            <PasswordInput label="Password" placeholder="Your password" mt="md" size="md"  onChange={handlePwdInput}/>
-            <Checkbox label="Keep me logged in" mt="xl" size="md" />
+            <TextInput label="Email address" placeholder="hello@gmail.com" size="md" ref={userRef}  value={email} onChange={handleEmailInput}/>
+            <PasswordInput label="Password" placeholder="Your password" mt="md" size="md" value={pwd} onChange={handlePwdInput}/>
+            {errMsg &&
+                <div style={{ marginTop: '10px' }}>
+                  <Alert icon={<IconAlertCircle size={16} />} title={`${errMsg}`} color="red" ref={errRef}/>
+                </div>
+            }
             <Button fullWidth mt="xl" size="md" type='submit'>
               Login
             </Button>
