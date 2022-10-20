@@ -71,26 +71,29 @@ import { useLoginMutation } from './authApiSlice'
       setErrMsg('')
     },[email,pwd])
 
-    const handleSubmit=async()=>{
-      console.log('handleSubmit')
+    const handleSubmit=async(e)=>{
+      e.preventDefault()
       try {
-        const userData = await login({ email, pwd }).unwrap()
-        console.log(userData);
+        const userData = await login({ email, password:pwd }).unwrap()
+        console.log("userData :", userData);
         dispatch(setCredentials({ ...userData, email }))
         setEmail('')
         setPwd('')
-        navigate('/welcome')
+
+        // navigate('/welcome')
     } catch (err) {
-        if (!err?.originalStatus) {
+        if (!err?.status) {
             // isLoading: true until timeout occurs
             setErrMsg('No Server Response');
-        } else if (err.originalStatus === 400) {
+        } else if (err.status === 400) {
             setErrMsg('Missing Username or Password');
-        } else if (err.originalStatus === 401) {
+        } else if (err.status === 401) {
             setErrMsg('Unauthorized');
         } else {
             setErrMsg('Login Failed');
         }
+        console.log(err.status)
+        console.log(errMsg);
         // errRef.current.focus();
     }
     }

@@ -4,12 +4,13 @@ const jwt = require('jsonwebtoken');
 
 const LoginUser = async (req, res) => {
     const { email, password } = req.body;
-    if (!email || !password) return res.status(400).json({ 'message': 'Username and password are required.' });
+    if (email=='' || password=='') return res.status(400).json({ 'message': 'Username and password are required.' });
 
     try {
+        console.log("email: " + email);
+        console.log("password: " + password);
         const user = await UserModel.findByCredentials(email,password);
 
-        console.log('hahahhaaahahahahaahaha');
         // create JWTs
 
         const accessToken = jwt.sign(
