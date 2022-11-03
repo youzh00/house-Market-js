@@ -18,10 +18,6 @@ const RegisterUser = async (req, res) => {
     if (duplicate) return res.status(409).json({'message':'User email already exist'}); 
 
     try {
-        //encrypt the password
-        // const hashedPwd = await bcrypt.hash(userBody.password, 10);
-        // userBody.password = hashedPwd
-        //create and store the new user
         const user = new UserModel(userBody);
         await user.save();
 

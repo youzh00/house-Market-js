@@ -1,27 +1,14 @@
-import { useToggle, upperFirst, useId } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
 import {
-    TextInput,
-    createStyles,
-    Title,
-    PasswordInput,
-    Text,
-    Paper,
-    Group,
-    Button,
-    Divider,
-    Checkbox,
-    Anchor,
-    Stack,
-    NumberInput,
-    Textarea,
-    Input,
-    Alert,
+    TextInput,createStyles,PasswordInput,Text,Paper,Button
+    ,Anchor,Stack,NumberInput,Textarea,Input,Alert, Notification,
 } from '@mantine/core';
 import InputMask from 'react-input-mask';
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { IconAlertCircle } from '@tabler/icons';
+import React, { useState, useRef, useId } from "react";
+import { useDispatch,  } from "react-redux";
+import { IconAlertCircle, IconCheck } from '@tabler/icons';
+import { useNavigate } from 'react-router';
+import {useRegisterMutation} from '../features/auth/authApiSlice'
   const useStyles = createStyles((theme) => ({
     wrapper: {
       minHeight: 900,
@@ -61,11 +48,15 @@ import { IconAlertCircle } from '@tabler/icons';
 //---------------------------------------------- Component Logic --------------------------------------------------//
 //---------------------------------------------- Component Logic --------------------------------------------------//
 //---------------------------------------------- Component Logic --------------------------------------------------//
-export default function Register() {
+export default function RegisterScreen() {
     const { classes } = useStyles();
     const id = useId();
+    const errRef = useRef()
     const dispatch = useDispatch();
-  
+    const [errMsg, setErrMsg] = useState('')
+    const navigate = useNavigate()
+    const [register,{isLoading,isSuccess}]=useRegisterMutation()
+
 
     
     const form = useForm({
@@ -84,21 +75,35 @@ export default function Register() {
         password: (val) => (val.length <= 8 ? 'Password should include at least 8 characters' : null),
       },
     });
-  
-    const onSubmit=(e)=>{
-      e.preventDefault();
-      const data={
-        email:form.values.email,
-        userName: form.values.name,
-        password: form.values.password,
-        address: form.values.address,
-        age: form.values.age,
-        bio: form.values.bio,
-        phoneNumber: form.values.phoneNumber,
-      }
-    
-      console.log("This is a registration data from  register screen :", data);
+    const userData={
+      email:form.values.email,
+      userName: form.values.name,
+      password: form.values.password,
+      address: form.values.address,
+      age: form.values.age,
+      bio: form.values.bio,
+      phoneNumber: form.values.phoneNumber,
     }
+    const onSubmit=async(e)=>{
+      e.preventDefault();
+      try {
+        const data=await register(userData).unwrap(); 
+        console.log("This is a registration data from  register screen :", data);
+      } catch (err) {
+        if (!err?.status) {
+          // isLoading: true until timeout occurs
+          setErrMsg('No Server Response');
+      } else if (err.status === 400) {
+          setErrMsg('User Informations are required');
+      } else if (err.status === 409) {
+          setErrMsg('User email already exist');
+      } else {
+          setErrMsg('Login Failed');
+      }
+      }
+      errRef.current.focus();
+    }
+    console.log(isSuccess)
     return (
       <div className={classes.wrapper}>
         <Paper className={classes.form} radius={0} p={30}>
@@ -168,12 +173,18 @@ export default function Register() {
           />
           
         </Stack>
-        {/* {message &&
-          <div style={{ marginTop: '10px' }}>
-            <Alert icon={<IconAlertCircle size={16} />} title={`${message}`} color="red"/>
-          </div>
-  
-       } */}
+        {
+          isSuccess && 
+          <Notification icon={<IconCheck size={18} />} m={10} color="teal" >   
+            Your account has been created successfully
+          </Notification>
+        }
+
+        {errMsg &&
+                <div style={{ marginTop: '10px' }}>
+                  <Alert icon={<IconAlertCircle size={16} />} title={`${errMsg}`} color="red" ref={errRef}/>
+                </div>
+            }
 
         <Text align="center" mt="md">
             You already have an account?{' '}

@@ -15,8 +15,8 @@ import { useRef, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { selectCurrentUser, setCredentials } from './authSlice'
-import { useLoginMutation } from './authApiSlice'
+import { selectCurrentUser, setCredentials } from '../features/auth/authSlice'
+import { useLoginMutation } from '../features/auth/authApiSlice'
 import { IconAlertCircle } from '@tabler/icons';
 
   const useStyles = createStyles((theme) => ({
@@ -54,11 +54,7 @@ import { IconAlertCircle } from '@tabler/icons';
     },
   }));
 //*---------------------------------------------- Component Logic --------------------------------------------------*//
-  export function AuthenticationImage() {
-    // const currentUser =useSelector(selectCurrentUser)
-    // if(currentUser){
-    //   navigate("/")
-    // }
+  export function LoginScreen() {
 
     const { classes } = useStyles();
     const userRef = useRef()
