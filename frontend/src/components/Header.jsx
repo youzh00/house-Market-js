@@ -1,17 +1,14 @@
-import { useState,lazy } from 'react';
+import { useState } from 'react';
 import {
   createStyles,Container,Avatar,UnstyledButton,
   Group,Text,Menu,Tabs, Image, Badge, MantineProvider, Button,
 } from '@mantine/core';
 import {
   IconLogout,IconStar,IconSettings,
-  IconPlayerPause,IconTrash,IconChevronDown, IconUserCircle, IconHome, IconSmartHome, IconHome2,
+  IconTrash,IconChevronDown, IconUserCircle,  IconHome2,
 } from '@tabler/icons';
-import { MantineLogo } from '@mantine/ds';
-import AuthModal from './AuthModal';
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../features/auth/authSlice";
-import logo from "../Assets/Logo2.jpg"
 import { useNavigate } from 'react-router';
 import {selectCurrentUser} from '../features/auth/authSlice'
 //*---------------------------------------------- Style -----------------------------------------------------//
@@ -102,13 +99,12 @@ const useStyles = createStyles((theme) => ({
 export function Header( ) {
   const { classes, theme, cx } = useStyles();
   const [userMenuOpened, setUserMenuOpened] = useState(false);
-  const tabs=["Home", "For Rent","For Sale","About"]
+  const tabs=["Buy", "Rent","Sale","Help"]
   
   const dispatch = useDispatch();
   const navigate=useNavigate();
   
   const currentUser =useSelector(selectCurrentUser)
-  console.log(currentUser)
   
   const handleLogout= (e)=>dispatch(logOut())
 
@@ -134,7 +130,7 @@ export function Header( ) {
     <div className={classes.header}>
       <Container className={classes.mainSection}>
         <Group position="apart">
-        <Badge sx={{ paddingLeft: 0 }} size="lg"  color="red" radius="sm" leftSection={avatar}>Aji-Tesken</Badge>
+        <Badge  size="lg"  color="red" radius="sm" >House Market Place</Badge>
         {currentUser ?(
               <Menu
             width={260}

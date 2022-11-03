@@ -165,8 +165,8 @@ export default function Register({toggle,setTitle}) {
           >
             'Already have an account? Login'
           </Anchor>
-          <Button type="submit">{upperFirst(type)}</Button>
         </Group>
+        <Button fullWidth mt="xl" size="md"> Login </Button>
       </form>
     </Paper>
   );

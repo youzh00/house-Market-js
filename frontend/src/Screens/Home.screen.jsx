@@ -1,9 +1,11 @@
 import React from 'react'
-
+import Hero from '../components/Hero'
+import OurServices from '../components/OurServices'
 const HomeScreen = () => {
   return (
     <div>
-        Welcome to HomeScreen
+        <Hero />
+        <OurServices />
     </div>
   )
 }

@@ -28,17 +28,17 @@ const ProfileScreen = () => {
     }
   return (
     <Container fluid={true}>
-    <Grid>
-        
-        <Grid.Col   xs={12} lg={4}>     
-          <UserData currentUser={currentUser}/>
-        </Grid.Col>
-        
-        <Grid.Col   xs={12} lg={8}>   
-          <UserData currentUser={currentUser}/>
-        </Grid.Col>
-    
-    </Grid>
+      <Grid>
+          
+          <Grid.Col   xs={12} lg={4}>     
+            <UserData currentUser={currentUser}/>
+          </Grid.Col>
+          
+          <Grid.Col   xs={12} lg={8}>   
+            <UserData currentUser={currentUser}/>
+          </Grid.Col>
+      
+      </Grid>
     </Container>
   )
 }

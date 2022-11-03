@@ -14,8 +14,8 @@ import {
 import { useRef, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { useDispatch } from 'react-redux'
-import { setCredentials } from './authSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectCurrentUser, setCredentials } from './authSlice'
 import { useLoginMutation } from './authApiSlice'
 import { IconAlertCircle } from '@tabler/icons';
 
@@ -55,6 +55,11 @@ import { IconAlertCircle } from '@tabler/icons';
   }));
 //*---------------------------------------------- Component Logic --------------------------------------------------*//
   export function AuthenticationImage() {
+    // const currentUser =useSelector(selectCurrentUser)
+    // if(currentUser){
+    //   navigate("/")
+    // }
+
     const { classes } = useStyles();
     const userRef = useRef()
     const errRef = useRef()
@@ -64,6 +69,7 @@ import { IconAlertCircle } from '@tabler/icons';
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [login,{isLoading}] = useLoginMutation()
+    
 
     useEffect(()=>{
       userRef.current.focus()
@@ -77,7 +83,6 @@ import { IconAlertCircle } from '@tabler/icons';
       e.preventDefault()
       try {
         const userData = await login({ email, password:pwd }).unwrap()
-        console.log("userData :", userData);
         dispatch(setCredentials({ ...userData, email }))
         setEmail('')
         setPwd('')
