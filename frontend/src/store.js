@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import houseSlice from "./features/houses/houseSlice";
 import authReducer from "./features/auth/authSlice";
 import messageReducer from "./features/user/messageSlice";
 import { apiSlice } from "./api/apiSlice";

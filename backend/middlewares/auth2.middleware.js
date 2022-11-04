@@ -11,7 +11,7 @@ const isConnected2 = async (req, res, next) => {
     const decoded = jwt.verify(token,process.env.ACCESS_TOKEN_SECRET);
 
     const user = await UserModel.findOne({ _id: decoded._id,});
-
+    
     // if (!user) throw new Error("Unable to find user");
     if (!user) return res.sendStatus(403); ;
 

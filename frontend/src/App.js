@@ -6,6 +6,7 @@ import HomeScreen from "./Screens/HomeScreen";
 import {LoginScreen} from './Screens/LoginScreen'
 import RegisterScreen from "./Screens/RegisterScreen";
 import RequireAuth from "./features/auth/RequiredAuth";
+import HousesListScreen from "./Screens/HousesListScreen";
 
 function App() {
   // const { data } = await axios.get("http://localhost:3000/houses");
@@ -19,6 +20,7 @@ function App() {
               <Route path='/' element={<HomeScreen />} />
               <Route path="/auth/login" element={<LoginScreen />} />
               <Route path="/auth/register" element={<RegisterScreen />} />
+              <Route path="/houses" element={<HousesListScreen />} />
 
               <Route element={<RequireAuth/>}>
                 <Route path="/user/profile" element={<ProfileScreen />} />

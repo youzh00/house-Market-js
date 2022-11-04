@@ -13,9 +13,11 @@ const houseSchema = new mongoose.Schema(
     },
     forRent: {
       type: Boolean,
+      required: true,
     },
     forSale: {
       type: Boolean,
+      required: true,
     },
     city: {
       type: String,

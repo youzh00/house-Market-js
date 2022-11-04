@@ -18,9 +18,7 @@ const baseQuery=fetchBaseQuery({
 const baseQueryWithReauth = async (args, api, extraOptions) => {
     
     let result = await baseQuery(args, api, extraOptions)
-    
-    console.log(result)
-    
+        
     if (result?.error?.originalStatus === 403) {
 
 
@@ -52,5 +50,6 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
 export const apiSlice=createApi({
     baseQuery:baseQueryWithReauth,
+    tagTypes:['House'],
     endpoints: (builder)=>({})
 })

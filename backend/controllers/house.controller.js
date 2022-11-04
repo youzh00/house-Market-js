@@ -6,17 +6,17 @@ const sharp = require("sharp");
 //path:/houses
 const createHouse = async (req, res) => {
   try {
-    const house = new HouseModel({
+    const house = await HouseModel.create({
       ...req.body,
       author: req.user._id,
       pictures: ["images/sample.jpg"],
     });
-    await house.save();
-    res.send(house);
-    console.log("house saved successfully");
+    if(house){
+      return res.status(201).json({ message: 'New House created' })
+    }
   } catch (error) {
-    res.status(400);
-    throw new Error("Invalid User Data");
+    res.status(400).json({ message: "Invalid house data received"});
+    throw new Error("Invalid house data received");
   }
 };
 
