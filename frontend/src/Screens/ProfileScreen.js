@@ -30,12 +30,14 @@ const ProfileScreen = () => {
     <Container fluid={true}>
       <Grid>
           
-          <Grid.Col   xs={12} lg={4}>     
+          <Grid.Col   xs={12} lg={12}>     
             <UserData currentUser={currentUser}/>
           </Grid.Col>
           
-          <Grid.Col   xs={12} lg={8}>   
-            <UserData currentUser={currentUser}/>
+          <Grid.Col   xs={12} lg={12}>   
+            <Container>
+              <Title>Posts</Title>
+            </Container>
           </Grid.Col>
       
       </Grid>

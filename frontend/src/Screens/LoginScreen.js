@@ -116,7 +116,7 @@ import { IconAlertCircle } from '@tabler/icons';
       <div className={classes.wrapper}>
         <Paper className={classes.form} radius={0} p={30}>
           <Title order={2} className={classes.title} align="center" mt="md" mb={50}>
-            Welcome back to Mantine!
+            Welcome to <Text color="red" inherit component="span">AjiTesken</Text>
           </Title>
           <form onSubmit={handleSubmit}>
 
@@ -134,7 +134,7 @@ import { IconAlertCircle } from '@tabler/icons';
   
           <Text align="center" mt="md">
             Don&apos;t have an account?{' '}
-            <Anchor href="#" weight={700} onClick={(event) => event.preventDefault()}>
+            <Anchor href="#" weight={700} onClick={(event) => navigate('/auth/register')}>
               Register
             </Anchor>
           </Text>

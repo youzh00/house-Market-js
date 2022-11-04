@@ -1,7 +1,7 @@
 import { useForm } from '@mantine/form';
 import {
     TextInput,createStyles,PasswordInput,Text,Paper,Button
-    ,Anchor,Stack,NumberInput,Textarea,Input,Alert, Notification,
+    ,Anchor,Stack,NumberInput,Textarea,Input,Alert, Notification, Title,
 } from '@mantine/core';
 import InputMask from 'react-input-mask';
 import React, { useState, useRef, useId } from "react";
@@ -107,6 +107,9 @@ export default function RegisterScreen() {
     return (
       <div className={classes.wrapper}>
         <Paper className={classes.form} radius={0} p={30}>
+          <Title order={2} className={classes.title} align="center" mt="md" mb={50}>
+            Welcome to <Text color="red" inherit component="span">AjiTesken</Text>
+          </Title>
         <form onSubmit={(e)=>onSubmit(e)}>
         <Stack>
           <TextInput
@@ -180,15 +183,16 @@ export default function RegisterScreen() {
           </Notification>
         }
 
-        {errMsg &&
+        {
+          errMsg &&
                 <div style={{ marginTop: '10px' }}>
                   <Alert icon={<IconAlertCircle size={16} />} title={`${errMsg}`} color="red" ref={errRef}/>
                 </div>
-            }
+        }
 
         <Text align="center" mt="md">
             You already have an account?{' '}
-            <Anchor href="#" weight={700} onClick={(event) => event.preventDefault()}>
+            <Anchor href="#" weight={700} onClick={(event) => navigate('/auth/login')}>
               Login
             </Anchor>
         </Text>
