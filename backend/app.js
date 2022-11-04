@@ -9,6 +9,7 @@ const cors = require("cors");
 const userRouter = require("./routes/user.router");
 const houseRouter = require("./routes/house.router");
 const authRouter = require("./routes/auth.router");
+const corsOptions = require('./config/corsOptions')
 
 const { notFound, errorHandler } = require("./middlewares/error.middleware");
 
@@ -20,7 +21,8 @@ app.use((req, res, next) => {
   res.header({"Access-Control-Allow-Origin": "*"});
   next();
 }) 
-app.use(cors());
+app.use(cors(corsOptions))
+// app.use(cors())
 app.use(express.json());
 app.use("/users", userRouter);
 app.use("/houses", houseRouter);
