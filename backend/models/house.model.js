@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 
 const houseSchema = new mongoose.Schema(
   {
+    title: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     description: {
       type: String,
       required: true,
@@ -26,6 +31,18 @@ const houseSchema = new mongoose.Schema(
     country: {
       type: String,
       required: true,
+    },
+    bedroom:{
+      type: Number,
+      default:0
+    },
+    bathroom:{
+      type: Number,
+      default:0
+    },
+    size:{
+      type: Number,
+      default:0
     },
     propertyType: {
       type: String,

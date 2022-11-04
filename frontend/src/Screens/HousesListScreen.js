@@ -16,14 +16,14 @@ const HousesListScreen = () => {
         const {ids}=houses
         items=ids?.length 
             ? ids.map(houseId=>(
-                <Grid.Col xs={12} lg={4}>
+                <Grid.Col xs={12} lg={4} md={6}>
                     <HouseCard key={houseId} houseId={houseId}/>
                 </Grid.Col>))
             : null
     }
   return (
-    <Container>
-        <Grid>
+    <Container mt={20} size='lg' p={30}>
+        <Grid gutter={70}>
             {items}
         </Grid>
     </Container>
