@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { apiSlice } from "../../api/apiSlice";
-import { logOut, selectCurrentUser, setCredentials } from "./authSlice";
+import { logOut, selectCurrentUser, setCredentials, setToken } from "./authSlice";
 
 const GetUser=()=>{
     const user =useSelector(selectCurrentUser)
@@ -46,11 +46,11 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 try {
                     const { data } = await queryFulfilled
                     console.log("data from refresh reducer",data)
-                    const user=GetUser();
-                    console.log("user from refresh reducer: ", user)
+                    // const user=GetUser();
+                    // console.log("user from refresh reducer: ", user)
                     const { accessToken } = data
 
-                    dispatch(setCredentials({ user,accessToken }))
+                    dispatch(setToken({accessToken }))
                 } catch (err) {
                     console.log(err)
                 }

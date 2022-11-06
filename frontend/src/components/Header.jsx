@@ -115,7 +115,7 @@ export function Header( ) {
   const currentUser =useSelector(selectCurrentUser)
   
 
-  const handleProfileClick=()=>navigate('/user/profile')
+  const handleProfileClick=()=>navigate('/me/profile')
 
   const handleGetStarted=()=>navigate('/auth/login')
 

@@ -3,8 +3,17 @@ import {MdOutlineAlternateEmail,MdPhone,MdInfo} from 'react-icons/md'
 import {BsInfoCircle} from 'react-icons/bs'
 
 import React from 'react'
+import { useNavigate } from 'react-router';
 
 const UserData = ({currentUser}) => {
+
+  const navigate=useNavigate()
+  
+  if(currentUser===null) {
+    return navigate("/welcome")
+     
+  }
+
   return (
     <Container>
       <Paper

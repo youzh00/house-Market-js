@@ -1,5 +1,5 @@
 import { SimpleGrid,Container, Input, Title, Center, Grid, Col, createStyles } from '@mantine/core';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector } from "react-redux";
 import { useNavigate } from 'react-router';
 import { Avatar, Text, Button, Paper } from '@mantine/core';
@@ -23,9 +23,13 @@ const ProfileScreen = () => {
     const {classes}=useStyles()
     const navigate = useNavigate()
     const currentUser =useSelector(selectCurrentUser)
-    if(!currentUser){
-        navigate("/")
+    console.log("This is user from Profile Screen :",currentUser)
+   
+    if(!currentUser || currentUser===null){
+        console.log("hahahhhahahahah")
+        navigate("/welcome")
     }
+    
   return (
     <Container fluid={true}>
       <Grid>

@@ -8,6 +8,7 @@ import {
     Text,
     Anchor,
     Alert,
+    Checkbox,
   } from '@mantine/core';
   
 import { useRef, useState, useEffect } from 'react'
@@ -17,6 +18,7 @@ import { useDispatch } from 'react-redux'
 import { setCredentials } from '../features/auth/authSlice'
 import { useLoginMutation } from '../features/auth/authApiSlice'
 import { IconAlertCircle } from '@tabler/icons';
+import usePersist from '../hooks/usePersist';
 
   const useStyles = createStyles((theme) => ({
     wrapper: {
@@ -61,6 +63,10 @@ import { IconAlertCircle } from '@tabler/icons';
     const [email, setEmail] = useState('')
     const [pwd, setPwd] = useState('')
     const [errMsg, setErrMsg] = useState('')
+    const [persist, setPersist] = usePersist()
+
+    console.log(persist)
+
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [login,{isLoading}] = useLoginMutation()
@@ -85,7 +91,7 @@ import { IconAlertCircle } from '@tabler/icons';
     } catch (err) {
       console.log(err.status)
         if (!err?.status) {
-            // isLoading: true until timeout occurs
+            // isLoading: true  until timeout occurs
             setErrMsg('No Server Response');
         } else if (err.status === 400) {
             setErrMsg('Missing Email or Password');
@@ -102,7 +108,8 @@ import { IconAlertCircle } from '@tabler/icons';
 
     const handlePwdInput = (e) => setPwd(e.target.value)
 
-    
+    const handleToggle = () => setPersist(prev => !prev)
+
     return (
       <div className={classes.wrapper}>
         <Paper className={classes.form} radius={0} p={30}>
@@ -113,6 +120,8 @@ import { IconAlertCircle } from '@tabler/icons';
 
             <TextInput label="Email address" placeholder="hello@gmail.com" size="md" ref={userRef}  value={email} onChange={handleEmailInput}/>
             <PasswordInput label="Password" placeholder="Your password" mt="md" size="md" value={pwd} onChange={handlePwdInput}/>
+            <Checkbox label="Keep me logged in" mt="xl" size="md" onChange={handleToggle} checked={persist}/>
+
             {errMsg &&
                 <div style={{ marginTop: '10px' }}>
                   <Alert icon={<IconAlertCircle size={16} />} title={`${errMsg}`} color="red" ref={errRef}/>

@@ -12,10 +12,10 @@ const HousesListScreen = () => {
         isSuccess,isError,error
     } = useGetHousesQuery()
 
-    const {data}=useGetUserHousesQuery()
-    console.log(data)
-    const user =useSelector(selectCurrentUser)
-    console.log("This is user from house list : ", user)
+    // const {data}=useGetUserHousesQuery()
+    // console.log(data)
+    // const user =useSelector(selectCurrentUser)
+    // console.log("This is user from house list : ", user)
     let items=<h1>Items</h1>
 
     if(isError){
@@ -26,7 +26,7 @@ const HousesListScreen = () => {
         const {ids}=houses
         items=ids?.length 
             ? ids.map(houseId=>(
-                <Grid.Col xs={12} lg={4} md={6}>
+                <Grid.Col xs={12} lg={4} md={6} key={houseId}>
                     <HouseCard key={houseId} houseId={houseId}/>
                 </Grid.Col>))
             : null
