@@ -7,10 +7,11 @@ import {
   IconLogout,IconStar,IconSettings,
   IconTrash,IconChevronDown, IconUserCircle,  IconHome2,
 } from '@tabler/icons';
-import { useDispatch, useSelector } from "react-redux";
-import { logOut } from "../features/auth/authSlice";
+import {  useSelector } from "react-redux";
+// import { logOut } from "../features/auth/authSlice";
 import { useNavigate } from 'react-router';
 import {selectCurrentUser} from '../features/auth/authSlice'
+import { useSendLogoutMutation } from '../features/auth/authApiSlice';
 //*---------------------------------------------- Style -----------------------------------------------------//
 const useStyles = createStyles((theme) => ({
   header: {
@@ -101,12 +102,18 @@ export function Header( ) {
   const [userMenuOpened, setUserMenuOpened] = useState(false);
   const tabs=["Buy", "Rent","Sale","Help"]
   
-  const dispatch = useDispatch();
+
   const navigate=useNavigate();
+
+  const [sendLogout, {
+    isLoading,
+    isSuccess,
+    isError,
+    error
+}] = useSendLogoutMutation()
   
   const currentUser =useSelector(selectCurrentUser)
   
-  const handleLogout= (e)=>dispatch(logOut())
 
   const handleProfileClick=()=>navigate('/user/profile')
 
@@ -162,7 +169,7 @@ export function Header( ) {
 
               <Menu.Label>Settings</Menu.Label>
               <Menu.Item icon={<IconSettings size={14} stroke={1.5} />}>Account settings</Menu.Item>
-              <Menu.Item icon={<IconLogout size={14} stroke={1.5} />} onClick={(e)=>handleLogout(e)}>Logout</Menu.Item>
+              <Menu.Item icon={<IconLogout size={14} stroke={1.5} />} onClick={sendLogout}>Logout</Menu.Item>
 
               <Menu.Divider />
 

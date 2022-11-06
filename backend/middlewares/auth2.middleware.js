@@ -12,13 +12,12 @@ const isConnected2 = async (req, res, next) => {
 
     const user = await UserModel.findOne({ _id: decoded._id,});
     
-    // if (!user) throw new Error("Unable to find user");
     if (!user) return res.sendStatus(403); ;
 
     req.user = user;
     next();
   } catch (error) {
-    res.status(401).send({ error: "Please authenticate" });
+    res.status(403).json({ message: "Forbidden, You have to be connected" });
   }
 };
 

@@ -14,7 +14,6 @@ export const houseApiSlice=apiSlice.injectEndpoints({
                 url:'/houses',
             }),
             transformResponse:responseData =>{
-                console.log("responseData ",responseData)
                 const loadedHouses=responseData.map(house=>{
                     house.id=house._id
                     return house
@@ -23,7 +22,6 @@ export const houseApiSlice=apiSlice.injectEndpoints({
 
             },
             providesTags: (result, error, arg) => {
-                console.log(result)
                 if (result?.ids) {
                     return [
                         { type: 'House', id: 'LIST' },
@@ -31,6 +29,9 @@ export const houseApiSlice=apiSlice.injectEndpoints({
                     ]
                 } else return [{ type: 'House', id: 'LIST' }]
             }
+        }),
+        getUserHouses:builder.query({
+            query:()=>'/houses/me'
         })
         
     })
@@ -47,4 +48,4 @@ export const {
     selectById:selectHouseById,
     selectIds:selectHouseId,}=housesAdapter.getSelectors(state=>selectHousesData(state) ?? initialState)
 
-export const {useGetHousesQuery}=houseApiSlice
+export const {useGetHousesQuery,useGetUserHousesQuery}=houseApiSlice

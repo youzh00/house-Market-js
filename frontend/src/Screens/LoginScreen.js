@@ -3,7 +3,6 @@ import {
     createStyles,
     TextInput,
     PasswordInput,
-    Checkbox,
     Button,
     Title,
     Text,
@@ -14,8 +13,8 @@ import {
 import { useRef, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { useDispatch, useSelector } from 'react-redux'
-import { selectCurrentUser, setCredentials } from '../features/auth/authSlice'
+import { useDispatch } from 'react-redux'
+import { setCredentials } from '../features/auth/authSlice'
 import { useLoginMutation } from '../features/auth/authApiSlice'
 import { IconAlertCircle } from '@tabler/icons';
 
@@ -79,37 +78,29 @@ import { IconAlertCircle } from '@tabler/icons';
       e.preventDefault()
       try {
         const userData = await login({ email, password:pwd }).unwrap()
-        dispatch(setCredentials({ ...userData, email }))
+        dispatch(setCredentials({ ...userData }))
         setEmail('')
         setPwd('')
-
-        navigate('/')
+        navigate('/houses')
     } catch (err) {
       console.log(err.status)
         if (!err?.status) {
             // isLoading: true until timeout occurs
             setErrMsg('No Server Response');
         } else if (err.status === 400) {
-            setErrMsg('Missing Username or Password');
+            setErrMsg('Missing Email or Password');
         } else if (err.status === 401) {
-            setErrMsg('Unauthorized: Invalid Username or Password');
+            setErrMsg('Unauthorized: Invalid Email or Password');
         } else {
             setErrMsg('Login Failed');
         }
-        console.log(errMsg);
         errRef.current.focus();
     }
     }
 
-    const handleEmailInput = (e) => {
-      console.log(e.target.value);
-      setEmail(e.target.value)
-    }
+    const handleEmailInput = (e) => setEmail(e.target.value)
 
-    const handlePwdInput = (e) => {
-      console.log(e.target.value);
-      setPwd(e.target.value)
-    }
+    const handlePwdInput = (e) => setPwd(e.target.value)
 
     
     return (

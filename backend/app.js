@@ -10,6 +10,8 @@ const userRouter = require("./routes/user.router");
 const houseRouter = require("./routes/house.router");
 const authRouter = require("./routes/auth.router");
 const corsOptions = require('./config/corsOptions')
+const cookieParser = require('cookie-parser')
+
 
 const { notFound, errorHandler } = require("./middlewares/error.middleware");
 
@@ -24,6 +26,8 @@ app.use((req, res, next) => {
 app.use(cors(corsOptions))
 // app.use(cors())
 app.use(express.json());
+app.use(cookieParser())
+
 app.use("/users", userRouter);
 app.use("/houses", houseRouter);
 app.use("/auth", authRouter);

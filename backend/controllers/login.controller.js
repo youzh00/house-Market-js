@@ -7,8 +7,7 @@ const LoginUser = async (req, res) => {
     if (email=='' || password=='') return res.status(400).json({ 'message': 'Username and password are required.' });
 
     try {
-        console.log("email: " + email);
-        console.log("password: " + password);
+
         const user = await UserModel.findByCredentials(email,password);
 
         // create JWTs
