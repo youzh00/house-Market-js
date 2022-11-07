@@ -114,7 +114,7 @@ import usePersist from '../hooks/usePersist';
       <div className={classes.wrapper}>
         <Paper className={classes.form} radius={0} p={30}>
           <Title order={2} className={classes.title} align="center" mt="md" mb={50}>
-            Welcome to <Text color="red" inherit component="span">AjiTesken</Text>
+            Welcome to <Text color="red" inherit component="span">FindHome</Text>
           </Title>
           <form onSubmit={handleSubmit}>
 

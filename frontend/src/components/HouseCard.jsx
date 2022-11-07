@@ -1,31 +1,79 @@
 import React from 'react'
-import { Card, Image, Text, Badge, Button, Group, Container, Center } from '@mantine/core';
+import { Card, Image, Text, Badge, Button, Group, Container, Center, createStyles, ActionIcon } from '@mantine/core';
 import { selectHouseById } from '../features/houses/houseApiSlice';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import {TbBed,TbBath} from 'react-icons/tb'
 import {MdOutlineSpaceDashboard} from 'react-icons/md'
 import {GoLocation} from 'react-icons/go'
+import { Carousel } from '@mantine/carousel';
+import { IconHeart } from '@tabler/icons';
+
+const useStyles = createStyles((theme, _params, getRef) => ({
+  price: {
+    color: theme.colorScheme === 'dark' ? theme.white : theme.black,
+  },
+  like: {
+    color: theme.colors.red[6],
+  },
+  carousel: {
+    '&:hover': {
+      [`& .${getRef('carouselControls')}`]: {
+        opacity: 1,
+      },
+    },
+  },
+
+  carouselControls: {
+    ref: getRef('carouselControls'),
+    transition: 'opacity 150ms ease',
+    opacity: 0,
+  },
+
+  carouselIndicator: {
+    width: 4,
+    height: 4,
+    transition: 'width 250ms ease',
+
+    '&[data-active]': {
+      width: 16,
+    },
+  },
+}));
+
+
 
 const HouseCard = ({houseId}) => {
+    
+    const { classes } = useStyles();
 
     const house = useSelector(state => selectHouseById(state, houseId));
     console.log(house)
     const navigate = useNavigate()
 
     const handleFindMore=()=>{
-      navigate(`/houses/${house.houseId}`)
+      navigate(`/houses/${houseId}`)
     }
 
+    
     if(house){
+      const slides = house.pictures.map((image) => (
+        <Carousel.Slide key={image}>
+          <Image src={`http://localhost:3000/${image}`} height={200} />
+        </Carousel.Slide>
+      ))
         return (
             <Card shadow="sm" p="lg" radius="md" withBorder key={houseId}>
               <Card.Section component="a" >
-                <Image
-                  src={`http://localhost:3000/${house.pictures[0]}`}
-                  height={160}
-                  alt={`${house.title}`}
-                />
+                <Carousel withIndicators loop
+                    classNames={{
+                      root: classes.carousel,
+                      controls: classes.carouselControls,
+                      indicator: classes.carouselIndicator,
+                    }}
+                >
+                  {slides}
+                </Carousel>
               </Card.Section>
         
               <Group position="apart" mt="md" mb="xs">
@@ -69,17 +117,41 @@ const HouseCard = ({houseId}) => {
               </Group>
 
               <Group m={10} position='apart'>
-                <Center >
-                    <GoLocation  size={20}/> 
-                    <Text  ml={3} size={18} fw={700}><b>{house.country}</b>, {house.city} </Text>
+                  <Center >
+                      <GoLocation  size={18}/> 
+                      <Text  ml={3} size={18} fw={700}><b>{house.country}</b>, {house.city} </Text>
                   </Center>
-                <Text fz="lg"> <b>{house.price} $ </b></Text>
+                  <Badge color="gray" radius="md" >
+                          <Center>
+                            <Text > {house.propertyType} </Text>
+                          </Center>
+                  </Badge >
 
               </Group>
-        
-              <Button variant="light" color="blue" fullWidth mt="md" radius="md" onClick={handleFindMore}>
-                More Info
-              </Button>
+              <Group position="apart" mt="md">
+                    <div>
+                      <Text size="xl" span weight={500} className={classes.price}>
+                        {house.price}$
+                      </Text>
+                      {
+                        house.propertyType==='Apartement' && (
+                          <Text span size="sm" color="dimmed">
+                            {' '}
+                            / night
+                          </Text>
+                        )
+                      }
+                      
+                    </div>
+
+                    <Button    color='blue' radius="md" onClick={handleFindMore}>
+                      More Info
+                    </Button>  
+                    <ActionIcon variant="default" radius="md" size={36}>
+                      <IconHeart size={18} className={classes.like} stroke={1.5} />
+                    </ActionIcon>            
+              </Group>
+              
             </Card>
           )
     }
